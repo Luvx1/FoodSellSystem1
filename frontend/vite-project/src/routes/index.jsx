@@ -6,4 +6,6 @@ export const routes = {
     notFound: '/404',
     unauthorized: '/401',
     product: '/product',
+    promotions: '/promotions',
+    aboutUs: '/about-us',
 };

@@ -6,6 +6,9 @@ import MainLayout from './layouts/Mainlayout';
 import Register from './pages/register/Register';
 import Homepage from './pages/homepage/homepage';
 import ProductPage from './pages/product/ProductPage';
+import Promotions from './pages/promotions/Promotions';
+import AboutUs from './pages/about-us/AboutUs';
+
 function App() {
     const router = createBrowserRouter([
         {
@@ -26,6 +29,8 @@ function App() {
             children: [
                 { path: routes.home, element: <Homepage /> },
                 { path: routes.product, element: <ProductPage /> },
+                { path: routes.promotions, element: <Promotions /> },
+                { path: routes.aboutUs, element: <AboutUs /> },
             ],
         },
     ]);
