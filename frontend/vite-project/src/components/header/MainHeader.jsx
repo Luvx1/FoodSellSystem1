@@ -12,7 +12,9 @@ export default function MainHeader() {
             <div className="main-header">
                 {/* Logo */}
                 <div className="logo">
-                    <img src={logo} alt="FastFood Logo" />
+                    <Link to="/">
+                        <img src={logo} alt="FastFood Logo" />
+                    </Link>
                 </div>
 
                 {/* Menu chính */}
