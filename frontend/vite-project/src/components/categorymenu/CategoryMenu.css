@@ -1,0 +1,48 @@
+.category-menu {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px;
+    background-color: #fcefd9; /* Màu nền nhẹ */
+}
+
+.category-item {
+    text-align: center;
+    cursor: pointer;
+}
+
+.category-icon {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px solid #f8b400;
+}
+
+.category-icon img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.new-badge {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
+
+.category-item p {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}

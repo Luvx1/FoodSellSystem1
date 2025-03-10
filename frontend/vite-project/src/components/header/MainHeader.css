@@ -1,0 +1,104 @@
+/* ========== HEADER CHÍNH ========== */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f5a623; /* Màu nền */
+}
+
+/* ========== LOGO ========== */
+.logo img {
+    width: 120px;
+    height: auto;
+    max-width: 150px;
+    display: block;
+}
+
+/* ========== MENU CHÍNH ========== */
+.menu-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.main-header .ant-menu {
+    background: transparent;
+    border-bottom: none;
+}
+
+/* Màu chữ cho menu */
+.main-header .ant-menu-item {
+    color: white !important;
+    font-size: 16px;
+}
+
+/* Khi menu được chọn */
+.main-header .ant-menu-item-selected {
+    background-color: #0056ff !important;
+    color: white !important;
+}
+
+/* Icon trong menu */
+.menu-container .ant-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu-container .ant-menu-item svg {
+    color: #fff;
+}
+
+/* ========== TÌM KIẾM, GIỎ HÀNG, TÀI KHOẢN ========== */
+.right-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Ô tìm kiếm */
+.right-icons .ant-input-search {
+    max-width: 200px;
+}
+
+/* Giỏ hàng & Tài khoản */
+.right-icons a {
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon,
+.profile-icon {
+    display: flex;
+    align-items: center;
+}
+
+.right-icons .icon {
+    font-size: 20px;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+}
+
+.right-icons .icon:hover {
+    transform: scale(1.1);
+}
+
+/* ========== MENU DANH MỤC (CategoryMenu) ========== */
+.category-menu {
+    background-color: #fff3e0;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.category-menu .ant-menu {
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+.category-menu .ant-menu-item {
+    font-weight: bold;
+    margin: 0 15px;
+}

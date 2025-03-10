@@ -6,7 +6,6 @@ import MainLayout from './layouts/Mainlayout';
 import Register from './pages/register/Register';
 import Homepage from './pages/homepage/homepage';
 import ProductPage from './pages/product/ProductPage';
-
 function App() {
     const router = createBrowserRouter([
         {
