@@ -17,7 +17,7 @@ export default function Register() {
     return (
         <div className="register-container">
             <div className="register-box">
-                <h1 className="register-title">Register</h1>
+                <h1 className="register-title">Sign up</h1>
                 <Form name="registerForm" layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item
                         label="Your Name"
