@@ -2,6 +2,7 @@
     max-width: 1440px;
     margin: 0 auto;
     padding: 20px;
+    
 }
 
 
@@ -9,4 +10,5 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Linh hoạt số cột */
     gap: 20px;
+    
 }

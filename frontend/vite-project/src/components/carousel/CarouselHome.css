@@ -1,3 +1,9 @@
+.carousel{
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .homepage {
     padding: 30px 20px;
     text-align: center;
@@ -13,7 +19,7 @@
 }
 
 .homepage-carousel {
-    max-width: 100%;
+    max-width: 1440px;
     margin: 0 auto;
 }
 
