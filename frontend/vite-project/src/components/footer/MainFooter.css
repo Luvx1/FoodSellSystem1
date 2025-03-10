@@ -1,18 +1,26 @@
 .footer-container {
-    background-color: #4b2e1e; /* Màu nâu */
-    color: white;
+    
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
-    padding: 10px 20px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
 }
 
+.footer-links {
+    margin: 10px 0;
+}
+
 .footer-links a {
-    color: white;
+    color: #fff;
     margin: 0 10px;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .footer-links a:hover {
@@ -20,13 +28,15 @@
 }
 
 .footer-icons {
-    display: flex;
-    gap: 10px;
-    font-size: 18px;
+    margin-top: 10px;
 }
 
-.x-icon {
-    width: 18px;
-    height: 18px;
-    filter: invert(1);
+.footer-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.footer-icons a:hover {
+    color: #ddd;
 }

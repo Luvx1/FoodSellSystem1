@@ -1,16 +1,12 @@
-.wrapper-product {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0 20px;
-    padding: 30px 20px;
-}
-.product-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Linh hoạt số cột */
-    gap: 20px;
-    justify-content: center;
+.product-page {
+    max-width: 1440px;
+    margin: 0 auto;
     padding: 20px;
-    max-width: 1200px; /* Giới hạn độ rộng */
-    margin: 0 auto; /* Căn giữa */
+}
+
+
+.wrapper-product {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Linh hoạt số cột */
+    gap: 20px;
 }

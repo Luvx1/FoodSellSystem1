@@ -26,10 +26,25 @@ export default function ProductPage() {
             price: '200',
             image: cheeseRingBeefBurger,
         },
+        {
+            name: 'CHEESE RING BEEF BURGER',
+            price: '200',
+            image: cheeseRingBeefBurger,
+        },
+        {
+            name: 'CHEESE RING BEEF BURGER',
+            price: '200',
+            image: cheeseRingBeefBurger,
+        },
+        {
+            name: 'CHEESE RING BEEF BURGER',
+            price: '200',
+            image: cheeseRingBeefBurger,
+        },
         
     ];
     return (
-        <div style={{ padding: '20px', maxWidth: '1440px', margin: 'auto' }}>
+        <div className="product-page">
             <h1>Product Page</h1>
             <div className="wrapper-product">
                 {product.map((product) => (

@@ -4,10 +4,11 @@ import Login from './pages/login/Login';
 import Profile from './pages/profile/profile';
 import MainLayout from './layouts/Mainlayout';
 import Register from './pages/register/Register';
-import Homepage from './pages/homepage/homepage';
+import Homepage from './pages/homepage/Homepage';
 import ProductPage from './pages/product/ProductPage';
 import Promotions from './pages/promotions/Promotions';
 import AboutUs from './pages/about-us/AboutUs';
+import Cart from './pages/cart/Cart';
 
 function App() {
     const router = createBrowserRouter([
@@ -31,6 +32,7 @@ function App() {
                 { path: routes.product, element: <ProductPage /> },
                 { path: routes.promotions, element: <Promotions /> },
                 { path: routes.aboutUs, element: <AboutUs /> },
+                { path: routes.cart, element: <Cart /> },
             ],
         },
     ]);
