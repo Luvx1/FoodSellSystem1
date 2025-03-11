@@ -1,7 +1,8 @@
-.carousel{
+.carousel {
     max-width: 1440px;
     margin: 0 auto;
     padding: 20px;
+    position: relative; /* Đảm bảo các phần tử con có thể hiển thị đúng */
 }
 
 .homepage {
@@ -24,6 +25,7 @@
 }
 
 .carousel-item {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,4 +36,41 @@
     height: 600px; /* Điều chỉnh kích thước nếu cần */
     object-fit: cover;
     border-radius: 10px; /* Tạo góc bo nhẹ */
+}
+
+.carousel-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 50%;
+    text-align: left;
+}
+
+.carousel-text h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.carousel-text p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.view-menu-button {
+    background-color: #ff4d4f;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-menu-button:hover {
+    background-color: #d9363e;
 }

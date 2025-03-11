@@ -11,21 +11,21 @@ const promotionsData = [
         id: 1,
         image: event1,
         title: 'KING DELIVERY - EXCLUSIVE COMBO',
-        description: 'Thông tin chi tiết về KING DELIVERY - EXCLUSIVE COMBO.',
+        description: 'Details about KING DELIVERY - EXCLUSIVE COMBO.',
     },
     {
         id: 2,
         image: event2,
         title: "KING'S DAY FRIDAY - 50% PRICE COMBO",
-        description: "Thông tin chi tiết về KING'S DAY FRIDAY - 50% PRICE COMBO.",
+        description: " Details about KING'S DAY FRIDAY - 50% PRICE COMBO.",
     },
     {
         id: 3,
         image: event3,
         title: 'BUY ONE GET ONE FREE!',
-        description: 'Thông tin chi tiết về BUY ONE GET ONE FREE!',
+        description: 'Details about BUY ONE GET ONE FREE!',
     },
-    { id: 4, image: event4, title: 'WHOPPER DEAL', description: 'Thông tin chi tiết về WHOPPER DEAL.' },
+    { id: 4, image: event4, title: 'WHOPPER DEAL', description: 'WHOPPER DEAL details.' },
 ];
 
 const PromotionDetail = () => {
