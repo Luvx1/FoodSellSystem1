@@ -16,24 +16,22 @@ const promotionsData = [
 const Promotions = () => {
     const navigate = useNavigate();
 
-    const handleClick = (id) => {
-        navigate(`/promotion/${id}`);
-    };
-
     return (
         <div className="promotions-container">
             {promotionsData.map((promo, index) =>
                 index % 2 === 0 && promotionsData[index + 1] ? (
                     <div className="promo-row" key={promo.id}>
-                        <div className="promotion-card" onClick={() => handleClick(promo.id)}>
-                            <img src={promo.image} alt={promo.title} className="img-fluid clickable-image" />
+                        <div className="promotion-card" onClick={() => navigate(`/promotion/${promo.id}`)}>
+                            <img src={promo.image} alt={promo.title} className="img-fluid" />
                             <p className="promo-title">{promo.title}</p>
                         </div>
-                        <div className="promotion-card" onClick={() => handleClick(promotionsData[index + 1].id)}>
+                        <div
+                            className="promotion-card"
+                            onClick={() => navigate(`/promotion/${promotionsData[index + 1].id}`)}>
                             <img
                                 src={promotionsData[index + 1].image}
                                 alt={promotionsData[index + 1].title}
-                                className="img-fluid clickable-image"
+                                className="img-fluid"
                             />
                             <p className="promo-title">{promotionsData[index + 1].title}</p>
                         </div>

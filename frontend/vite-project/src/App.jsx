@@ -7,6 +7,7 @@ import Register from './pages/register/Register';
 import Homepage from './pages/homepage/Homepage';
 import ProductPage from './pages/product/ProductPage';
 import Promotions from './pages/promotions/Promotions';
+import PromotionDetail from './pages/promotions/PromotionDetail'; // Import trang chi tiết
 import AboutUs from './pages/about-us/AboutUs';
 import Cart from './pages/cart/Cart';
 
@@ -31,16 +32,14 @@ function App() {
                 { path: routes.home, element: <Homepage /> },
                 { path: routes.product, element: <ProductPage /> },
                 { path: routes.promotions, element: <Promotions /> },
+                { path: '/promotion/:id', element: <PromotionDetail /> },
                 { path: routes.aboutUs, element: <AboutUs /> },
                 { path: routes.cart, element: <Cart /> },
             ],
         },
     ]);
-    return (
-        <>
-            <RouterProvider router={router} />
-        </>
-    );
+
+    return <RouterProvider router={router} />;
 }
 
 export default App;

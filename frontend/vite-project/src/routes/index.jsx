@@ -7,6 +7,7 @@ export const routes = {
     unauthorized: '/401',
     product: '/product',
     promotions: '/promotions',
+    promotionDetail: '/promotions/:id',
     aboutUs: '/about-us',
     cart: '/cart',
 };
