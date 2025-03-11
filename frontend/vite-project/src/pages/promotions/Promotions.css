@@ -3,6 +3,8 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    margin-top: 40px; /* Đẩy cả container xuống */
+    padding-top: 20px; /* Thêm khoảng cách trên */
 }
 
 .promotion-card {
@@ -13,6 +15,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     padding: 15px;
+    margin-top: 20px; /* Đẩy từng card xuống */
+    cursor: pointer;
 }
 
 .promotion-card img {
@@ -34,5 +38,5 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 40px; /* Tăng khoảng cách giữa các hàng */
+    margin-bottom: 20px; /* Giảm khoảng cách giữa các hàng */
 }
