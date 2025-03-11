@@ -8,11 +8,7 @@
 .main-content {
     flex: 1; /* Giúp phần content mở rộng để đẩy footer xuống */
     padding: 20px;
-    background-color: #fff5e1;
-}
-
-.main-header {
-    background-color: #feb002; /* Màu nền header */
+    background-color: #fdf3e6;
 }
 
 .main-footer {

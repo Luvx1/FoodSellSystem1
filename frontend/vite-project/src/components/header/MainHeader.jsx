@@ -44,7 +44,7 @@ export default function MainHeader() {
             </div>
 
             {/* Danh mục món ăn nằm dưới header */}
-            <CategoryMenu />
+            {/* <CategoryMenu /> */}
         </>
     );
 }
