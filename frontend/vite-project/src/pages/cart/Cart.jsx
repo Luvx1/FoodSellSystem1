@@ -4,7 +4,7 @@ import './Cart.css'; // Import CSS
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([
-        { id: 1, title: 'Burger', price: 5, quantity: 1 },
+        { id: 1, title: 'Burger', price: 5.20, quantity: 1 },
         { id: 2, title: 'Fries', price: 3, quantity: 2 },
     ]);
 

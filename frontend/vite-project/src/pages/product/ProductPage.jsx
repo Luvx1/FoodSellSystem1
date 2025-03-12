@@ -19,88 +19,136 @@ import beef3 from '../../assets/image/beef-french.jpg';
 import chickenrice from '../../assets/image/chicken-rice.jpg';
 import chickenburger from '../../assets/image/burger-ga-trung.jpg';
 import newfood from '../../assets/image/cheese-ring-beef-burger-jr-combo.jpg';
+import spaghetti from '../../assets/image/spaghetti.jpg';
+import TomSushi from '../../assets/image/tom-sushi.jpg';
+import SalmonSushi from '../../assets/image/salmon-sushi.jpg';
+import ComboSushi1 from '../../assets/image/combo-sushi.jpg';
+import ComboSushi2 from '../../assets/image/combo-sushi-2.jpg';
+import Hotpot from '../../assets/image/hotpot.jpg';
 import { Button } from 'antd';
 
 const productData = [
     {
+        name: 'Filipino style spaghetti',
+        price: '4.50',
+        description: 'Sweet spaghetti with meat and cheese.',
+        image: spaghetti,
+        cateId: null,
+    },
+    {
         name: 'Cheese Ring Burger',
-        price: '230',
+        price: '5.00',
         description: 'Delicious cheese-filled burger.',
         image: cheeseRingBurger,
         cateId: null,
     },
     {
         name: 'Cheese Ring Beef Burger',
-        price: '230',
+        price: '6.00',
         description: 'A tasty beef burger with cheese.',
         image: newfood,
         cateId: null,
     },
     {
+        name: 'Sushi Sashimi mix - Sashimi',
+        price: '10.00',
+        description: 'Combo Sushi Sashimi mix - Sashimi',
+        image: ComboSushi1,
+        cateId: null,
+    },
+    {
+        name: 'Sushi & Nigiri Combo',
+        price: '9.00',
+        description: 'Sushi Combo - salmon - california - nigiri salmon - nigiri shrimp.',
+        image: ComboSushi2,
+        cateId: null,
+    },
+    {
         name: 'Beef Burger',
-        price: '230',
+        price: '5.50',
         description: 'Classic beef burger with fresh ingredients.',
         image: cheeseBeefBurger,
         cateId: 1,
     },
     {
         name: 'Beef Bacon Burger',
-        price: '230',
+        price: '6.50',
         description: 'Juicy beef burger with crispy bacon.',
         image: cheeseBaconBurger,
         cateId: 1,
     },
     {
         name: 'Chicken Burger',
-        price: '230',
+        price: '5.00',
         description: 'Crispy chicken burger with lettuce.',
         image: chickenburger,
         cateId: 1,
     },
-    { name: 'Beefsteak', price: '230', description: 'Premium beefsteak with rich sauce.', image: Beef, cateId: 2 },
+    { name: 'Beefsteak', price: '12.00', description: 'Premium beefsteak with rich sauce.', image: Beef, cateId: 2 },
     {
         name: 'Beef Wellington',
-        price: '230',
+        price: '15.00',
         description: 'Flaky pastry wrapped around tender beef.',
         image: beef2,
         cateId: 2,
     },
     {
         name: 'French Beef Stew',
-        price: '230',
+        price: '10.00',
         description: 'Slow-cooked beef stew with vegetables.',
         image: beef3,
         cateId: 2,
     },
     {
+        name: 'Korean Beef Hot Pot',
+        price: '9.50',
+        description: 'Korean Beef Hot Pot, Bulgogi Jeongol',
+        image: Hotpot,
+        cateId: 2,
+    },
+    {
         name: 'Fried Chicken',
-        price: '230',
+        price: '6.00',
         description: 'Crispy fried chicken with spices.',
         image: friedChickenImg,
         cateId: 3,
     },
     {
         name: 'Grilled chicken with salt and chili',
-        price: '230',
+        price: '6.50',
         description: 'Spicy grilled chicken with seasoning.',
         image: Chicken,
         cateId: 3,
     },
     {
         name: 'Chicken rice',
-        price: '230',
+        price: '5.50',
         description: 'Steamed rice with flavorful chicken.',
         image: chickenrice,
         cateId: 3,
     },
-    { name: 'Salad', price: '230', description: 'Fresh vegetables with dressing.', image: Salad, cateId: 4 },
-    { name: 'Tobokki', price: '230', description: 'Spicy Korean rice cakes.', image: tobokki, cateId: 4 },
-    { name: 'Kimbap', price: '230', description: 'Korean rice rolls with seaweed.', image: kimbap, cateId: 4 },
+    { name: 'Salad', price: '3.50', description: 'Fresh vegetables with dressing.', image: Salad, cateId: 4 },
+    { name: 'Tobokki', price: '4.50', description: 'Spicy Korean rice cakes.', image: tobokki, cateId: 4 },
+    { name: 'Kimbap', price: '4.00', description: 'Korean rice rolls with seaweed.', image: kimbap, cateId: 4 },
     {
         name: 'Fried Kimbap',
-        price: '230',
+        price: '4.50',
         description: 'Deep-fried kimbap with crunchy texture.',
         image: kimbapfries,
+        cateId: 4,
+    },
+    {
+        name: 'Shrimp Nigiri Sushi',
+        price: '6.00',
+        description: 'Shrimp Nigiri Sushi',
+        image: TomSushi,
+        cateId: 4,
+    },
+    {
+        name: 'Salmon Nigiri Sushi',
+        price: '6.50',
+        description: 'Salmon Nigiri Sushi',
+        image: SalmonSushi,
         cateId: 4,
     },
 ];

@@ -7,7 +7,7 @@ export default function MainFooter() {
     return (
         <div className="footer-container">
             <div className="footer-content">
-                <p>© 2025 Fast Food Corporation. All Rights Reserved.</p>
+                <p>© 2025 StreetFoodSpencer® Corporation. All Rights Reserved.</p>
                 <div className="footer-links">
                     <Link to="/about-us">About Us</Link>
                     <Link to="/contact">Contact</Link>
