@@ -12,8 +12,8 @@
 .cart-table th,
 .cart-table td {
     padding: 12px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
 .cart-table th {
@@ -22,8 +22,8 @@
 }
 
 .cart-item-img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
 }
 
 .cart-remove-btn {
@@ -105,4 +105,15 @@
 
 .promo-input button:hover {
     background: #333;
+}
+
+.cart-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Điều chỉnh theo chiều cao mong muốn */
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    text-align: center;
 }

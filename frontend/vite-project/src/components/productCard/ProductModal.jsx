@@ -1,5 +1,6 @@
 import './ProductModal.css';
 import { useState } from 'react';
+import { addToCart } from '../../utils/cartUtils';
 
 export default function ProductModal({ product, onClose }) {
     const [quantity, setQuantity] = useState(1);
@@ -7,6 +8,13 @@ export default function ProductModal({ product, onClose }) {
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => {
         if (quantity > 1) setQuantity(quantity - 1);
+    };
+
+    // Xử lý thêm sản phẩm vào giỏ hàng
+    const handleAddToCart = () => {
+        addToCart({ ...product, quantity });
+        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        onClose(); // Đóng modal sau khi thêm vào giỏ hàng
     };
 
     return (
@@ -18,10 +26,9 @@ export default function ProductModal({ product, onClose }) {
                 <h2>{product.name}</h2>
                 <img className="modal-image" src={product.image} alt={product.name} />
 
-                {/* Thêm mô tả sản phẩm */}
                 {product.description && <p className="product-description">{product.description}</p>}
 
-                <p>Price: {product.price}</p>
+                <p>Price: $ {product.price}</p>
 
                 {/* Số lượng sản phẩm */}
                 <div className="quantity-controls">
@@ -30,7 +37,10 @@ export default function ProductModal({ product, onClose }) {
                     <button onClick={increaseQuantity}>+</button>
                 </div>
 
-                <button className="add-to-cart-button">Add to Cart</button>
+                {/* Nút thêm vào giỏ hàng */}
+                <button className="add-to-cart-button" onClick={handleAddToCart}>
+                    Add to Cart
+                </button>
             </div>
         </div>
     );

@@ -1,15 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
-import './Cart.css'; // Import CSS
+import Cookies from 'js-cookie';
+import { getCart, removeFromCart, updateCartQuantity } from '../../utils/cartUtils';
+import './Cart.css';
 
 const Cart = () => {
-    const [cartItems, setCartItems] = useState([
-        { id: 1, title: 'Burger', price: 5.20, quantity: 1 },
-        { id: 2, title: 'Fries', price: 3, quantity: 2 },
-    ]);
+    const [cartItems, setCartItems] = useState([]);
 
+    // Load giỏ hàng từ cookies khi component mount
+    useEffect(() => {
+        setCartItems(getCart());
+    }, []);
+
+    // Xóa sản phẩm khỏi giỏ hàng
     const handleRemove = (id) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
+        removeFromCart(id);
+        setCartItems(getCart()); // Cập nhật lại state
+    };
+
+    // Tăng số lượng sản phẩm
+    const increaseQuantity = (id) => {
+        updateCartQuantity(id, 1);
+        setCartItems(getCart());
+    };
+
+    // Giảm số lượng sản phẩm
+    const decreaseQuantity = (id) => {
+        updateCartQuantity(id, -1);
+        setCartItems(getCart());
     };
 
     const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -18,68 +36,83 @@ const Cart = () => {
 
     return (
         <div className="cart-container">
-            {/* Table */}
-            <table className="cart-table">
-                <thead>
-                    <tr>
-                        <th>Items</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cartItems.map((item) => (
-                        <tr key={item.id}>
-                            <td>
-                                <img
-                                    src={`/images/${item.title.toLowerCase()}.png`}
-                                    alt={item.title}
-                                    className="cart-item-img"
-                                />
-                            </td>
-                            <td>{item.title}</td>
-                            <td>${item.price}</td>
-                            <td>{item.quantity}</td>
-                            <td>${item.price * item.quantity}</td>
-                            <td>
-                                <button onClick={() => handleRemove(item.id)} className="cart-remove-btn">
-                                    <Trash2 size={18} />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            {/* Cart Totals & Promo Code */}
-            <div className="cart-summary">
-                <div className="cart-totals">
-                    <h2>Cart Totals</h2>
-                    <div className="cart-total-details">
-                        <p>
-                            <span>Subtotal</span> <span>${subtotal}</span>
-                        </p>
-                        <p>
-                            <span>Delivery Fee</span> <span>${deliveryFee}</span>
-                        </p>
-                        <p className="cart-total">
-                            <span>Total</span> <span>${total}</span>
-                        </p>
-                    </div>
-                    <button className="checkout-btn">PROCEED TO CHECKOUT</button>
+            {cartItems.length === 0 ? (
+                <div className="cart-empty-container">
+                    <p className="cart-empty">Your cart is empty.</p>
+                    <button className="view-menu-btn" onClick={() => (window.location.href = '/product')}>
+                        View Menu
+                    </button>
                 </div>
+            ) : (
+                <>
+                    <table className="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Items</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cartItems.map((item, index) => (
+                                <tr key={item.id || index}>
+                                    <td>
+                                        <img src={item.image} alt={item.title} className="cart-item-img" />
+                                    </td>
+                                    <td>{item.name}</td>
+                                    <td>${item.price}</td>
+                                    <td>
+                                        <button onClick={() => decreaseQuantity(item.id)} className="quantity-btn">
+                                            -
+                                        </button>
+                                        <span className="quantity-value">{item.quantity}</span>
+                                        <button onClick={() => increaseQuantity(item.id)} className="quantity-btn">
+                                            +
+                                        </button>
+                                    </td>
+                                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                    <td>
+                                        <button onClick={() => handleRemove(item.id)} className="cart-remove-btn">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
-                <div className="promo-code">
-                    <p>If you have a promo code, enter it here</p>
-                    <div className="promo-input">
-                        <input type="text" placeholder="Promo Code" />
-                        <button>Submit</button>
+                    <div className="cart-summary">
+                        <div className="cart-totals">
+                            <h2>Cart Totals</h2>
+                            <div className="cart-total-details">
+                                <p>
+                                    <span>Subtotal</span> <span>${subtotal.toFixed(2)}</span>
+                                </p>
+                                <p>
+                                    <span>Delivery Fee</span> <span>${deliveryFee.toFixed(2)}</span>
+                                </p>
+                                <p className="cart-total">
+                                    <span>Total</span> <span>${total.toFixed(2)}</span>
+                                </p>
+                            </div>
+                            <button className="checkout-btn" disabled={cartItems.length === 0}>
+                                PROCEED TO CHECKOUT
+                            </button>
+                        </div>
+
+                        <div className="promo-code">
+                            <p>If you have a promo code, enter it here</p>
+                            <div className="promo-input">
+                                <input type="text" placeholder="Promo Code" />
+                                <button>Submit</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 };

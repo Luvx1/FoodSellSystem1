@@ -1,9 +1,10 @@
-import './Login.css';
-
-export default function Login() {
+export default function Homepage() {
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="homepage">
+            <h1 className="homepage-title"></h1>
+
+            {/* Carousel */}
+            <CarouselHome />
         </div>
     );
 }

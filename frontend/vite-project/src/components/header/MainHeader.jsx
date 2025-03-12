@@ -1,11 +1,31 @@
-import { Menu, Input } from 'antd';
+import { Menu, Input, Badge } from 'antd';
 import { Link } from 'react-router-dom';
 import { UserOutlined, ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
 import './MainHeader.css';
 import logo from '/src/assets/image/Logo.png';
+import { getCartQuantity } from '../../utils/cartUtils';
 import CategoryMenu from '../categorymenu/CategoryMenu';
+import Cookies from 'js-cookie';
 
 export default function MainHeader() {
+    const [cartCount, setCartCount] = useState(0);
+
+    // Hàm cập nhật số lượng giỏ hàng
+    const updateCartCount = () => {
+        setCartCount(getCartQuantity());
+    };
+
+    // Theo dõi thay đổi cookies
+    useEffect(() => {
+        updateCartCount(); // Cập nhật lần đầu khi render
+
+        // Kiểm tra cookies mỗi 1 giây
+        const interval = setInterval(updateCartCount, 1000);
+
+        return () => clearInterval(interval); // Cleanup khi component unmount
+    }, []);
+
     return (
         <>
             {/* Header chính */}
@@ -34,9 +54,14 @@ export default function MainHeader() {
                 {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
                 <div className="right-icons">
                     <Input.Search placeholder="Search..." allowClear enterButton={<SearchOutlined />} />
+
+                    {/* Hiển thị số lượng giỏ hàng */}
                     <Link to="/cart">
-                        <ShoppingCartOutlined className="icon" />
+                        <Badge count={cartCount} showZero>
+                            <ShoppingCartOutlined className="icon" />
+                        </Badge>
                     </Link>
+
                     <Link to="/profile">
                         <UserOutlined className="icon" />
                     </Link>
