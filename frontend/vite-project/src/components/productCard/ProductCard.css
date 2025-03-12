@@ -1,22 +1,48 @@
 .product-card {
     border: 1px solid black;
-    height: 300px;
-    width: 200px;
-    background-color: #E3C5A8; /* Giúp sản phẩm không bị chìm vào background */
+    height: 320px; /* Tăng nhẹ chiều cao để mô tả không bị cắt */
+    width: 220px; /* Điều chỉnh kích thước rộng hơn */
+    background-color: #E3C5A8; 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Căn giữa nội dung */
-    justify-content: space-around; /* Phân bố nội dung */
-    padding: 10px;
+    align-items: center;
+    justify-content: space-between; /* Tăng khoảng cách hợp lý */
+    padding: 15px; /* Thêm padding giúp cân đối nội dung */
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo hiệu ứng đổ bóng nhẹ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .product-card img {
     width: 100%;
-    height: auto;
-    max-height: 150px; /* Giữ ảnh không quá lớn */
-    object-fit: cover; /* Giúp ảnh không bị méo */
-    border-radius: 5px; /* Bo góc nhẹ */
+    height: 130px; /* Giới hạn chiều cao */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
+
+.product-description {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    padding: 0 5px; /* Thêm padding để tránh text chạm viền */
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
 }

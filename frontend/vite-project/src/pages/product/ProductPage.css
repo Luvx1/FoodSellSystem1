@@ -1,5 +1,5 @@
 .product-page {
-    max-width: 1440px;
+    max-width: 1200px; /* Giảm chiều rộng để tập trung nội dung */
     margin: 0 auto;
     padding: 20px;
 }
@@ -8,12 +8,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px; /* Khoảng cách giữa các icon */
-    padding: 15px 0;
+    gap: 20px; /* Giảm khoảng cách giúp bố cục chặt chẽ hơn */
+    padding: 15px 10px;
     background-color: #faf1e6;
     border-radius: 12px;
-    overflow-x: auto; /* Nếu có nhiều danh mục, có thể cuộn */
-    white-space: nowrap; /* Tránh xuống dòng */
+    overflow-x: auto;
+    white-space: nowrap;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .category-item {
@@ -21,26 +22,22 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
-.category-item button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.category-item:hover {
+    transform: translateY(-3px);
 }
 
 .category-item img {
-    width: 70px;
-    height: 70px;
+    width: 65px; /* Điều chỉnh kích thước icon nhỏ hơn */
+    height: 65px;
     border-radius: 50%;
-    object-fit: contain; /* Đảm bảo ảnh không bị cắt xén */
+    object-fit: cover;
     background-color: white;
     border: 3px solid white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -50,15 +47,37 @@
 }
 
 .category-item p {
-    margin-top: 6px;
+    margin-top: 5px;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px; /* Tăng nhẹ kích thước chữ */
     color: #333;
 }
 
 .wrapper-product {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Tăng kích thước card */
+    gap: 25px; /* Tăng khoảng cách giúp bố cục thoáng hơn */
+    margin-top: 25px;
+    padding: 10px;
+    justify-items: center; /* Căn giữa sản phẩm */
+}
+
+@media (max-width: 768px) {
+    .wrapper-product {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive cho màn hình nhỏ */
+        gap: 15px;
+    }
+
+    .category-menu {
+        gap: 15px;
+    }
+
+    .category-item img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .category-item p {
+        font-size: 12px;
+    }
 }
