@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-    background: white;
+    background: #e3c5a8;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -60,14 +60,16 @@
 }
 
 .quantity-controls button {
-    background-color: #007bff;
-    color: #ffffff;
-    border-radius: 14px;
+    background-color: whitesmoke;
+    color: black;
+    border: 10px;
+    border-radius: 10px;
     cursor: pointer;
+    
 }
 
 .add-to-cart-button {
-    background-color: #00c853 !important; /* Màu xanh như ảnh 2 */
+    background-color: #D97706 !important; /* Màu xanh như ảnh 2 */
     color: white !important;
     padding: 10px 15px;
     font-size: 16px;
@@ -79,7 +81,7 @@
 }
 
 .add-to-cart-button:hover {
-    background-color: #009624 !important; /* Màu xanh đậm khi hover */
+    background-color: #B45309 !important; /* Màu xanh đậm khi hover */
 }
 .product-description {
     font-size: 16px;

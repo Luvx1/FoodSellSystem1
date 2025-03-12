@@ -190,7 +190,7 @@ export default function ProductPage() {
                     </div>
                 ))}
             </div>
-            <h1>Product Page</h1>
+            <h1>Explore our menu</h1>
             <div className="wrapper-product">
                 {filteredProducts.map((product, index) => (
                     <ProductCard key={index} product={product} />

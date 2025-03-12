@@ -1,7 +1,7 @@
 import React from 'react';
-import home1 from '../../assets/image/home1.jpg';
-import home2 from '../../assets/image/home2.png';
-import home3 from '../../assets/image/home3.jpg';
+import home1 from '../../assets/image/home7.jpg';
+import home2 from '../../assets/image/home6.jpg';
+import home3 from '../../assets/image/home10.jpg';
 import { Carousel, Button } from 'antd';
 import './CarouselHome.css';
 import { useNavigate } from 'react-router-dom';
