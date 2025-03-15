@@ -3,47 +3,53 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #FF9800; /* Màu nền */
+    padding: 15px 40px;  /* Tăng padding để dễ căn chỉnh */
+    background-color: #FF9800;
 }
 
 /* ========== LOGO ========== */
 .logo img {
-    width: 120px;
-    height: auto;
+    width: 140px;
     max-width: 150px;
     display: block;
 }
 
 /* ========== MENU CHÍNH ========== */
 .menu-container {
-    flex: 1;
+    flex-grow: 1;  /* Đảm bảo menu mở rộng đúng */
+    display: flex;
+    justify-content: center;
+    max-width: 600px;  /* Hạn chế chiều rộng tối đa */
+}
+
+/* Căn giữa menu */
+.main-header .ant-menu {
+    background: transparent;
+    border-bottom: none;
     display: flex;
     justify-content: center;
 }
 
-.main-header .ant-menu {
-    background: transparent;
-    border-bottom: none;
-}
-
-/* Màu chữ cho menu */
+/* Màu chữ trong menu */
 .main-header .ant-menu-item {
     color: white !important;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 20px;
 }
 
 /* Khi menu được chọn */
 .main-header .ant-menu-item-selected {
     background-color: #0056ff !important;
     color: white !important;
+    border-radius: 5px;
 }
 
 /* Icon trong menu */
 .menu-container .ant-menu-item {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }
 
 .menu-container .ant-menu-item svg {
@@ -54,12 +60,12 @@
 .right-icons {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;  /* Tăng khoảng cách */
 }
 
 /* Ô tìm kiếm */
 .right-icons .ant-input-search {
-    max-width: 200px;
+    max-width: 220px;
 }
 
 /* Giỏ hàng & Tài khoản */
@@ -74,8 +80,9 @@
     align-items: center;
 }
 
+/* Icon giỏ hàng & tài khoản */
 .right-icons .icon {
-    font-size: 20px;
+    font-size: 22px;
     color: white;
     transition: transform 0.2s ease-in-out;
 }
@@ -100,5 +107,5 @@
 
 .category-menu .ant-menu-item {
     font-weight: bold;
-    margin: 0 15px;
+    margin: 0 20px;
 }
