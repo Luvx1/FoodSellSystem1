@@ -3,6 +3,9 @@ import { Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { getCart, removeFromCart, updateCartQuantity } from '../../utils/cartUtils';
 import './Cart.css';
+import { Link } from "react-router-dom";
+import { routes } from "../../routes";
+
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -98,9 +101,10 @@ const Cart = () => {
                                     <span>Total</span> <span>${total.toFixed(2)}</span>
                                 </p>
                             </div>
-                            <button className="checkout-btn" disabled={cartItems.length === 0}>
-                                PROCEED TO CHECKOUT
-                            </button>
+                            <Link to={routes.placeOrder} className={`checkout-btn ${cartItems.length === 0 ? "disabled" : ""}`}>
+    PROCEED TO CHECKOUT
+</Link>
+
                         </div>
 
                         <div className="promo-code">

@@ -10,4 +10,5 @@ export const routes = {
     promotionDetail: '/promotions/:id',
     aboutUs: '/about-us',
     cart: '/cart',
+    placeOrder: '/place-order',
 };

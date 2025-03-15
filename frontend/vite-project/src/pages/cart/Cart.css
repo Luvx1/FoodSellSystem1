@@ -64,19 +64,24 @@
 }
 
 .checkout-btn {
-    width: 100%;
-    padding: 10px;
+    display: block; /* Giúp nút trở thành một khối để căn giữa */
+    margin: 20px auto 0; /* Tạo khoảng cách 20px từ Total và căn giữa */
+    padding: 12px 24px;
+    font-size: 16px;
     background: #ff5733;
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 10px;
     border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
 }
+
 
 .checkout-btn:hover {
     background: #e04b2c;
 }
+
 
 .promo-code {
     width: 48%;

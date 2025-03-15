@@ -7,9 +7,10 @@ import Register from './pages/register/Register';
 import Homepage from './pages/homepage/Homepage';
 import ProductPage from './pages/product/ProductPage';
 import Promotions from './pages/promotions/Promotions';
-import PromotionDetail from './pages/promotions/PromotionDetail'; // Import trang chi tiết
+import PromotionDetail from './pages/promotions/PromotionDetail';
 import AboutUs from './pages/about-us/AboutUs';
 import Cart from './pages/cart/Cart';
+import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOrder
 
 function App() {
     const router = createBrowserRouter([
@@ -35,6 +36,7 @@ function App() {
                 { path: '/promotion/:id', element: <PromotionDetail /> },
                 { path: routes.aboutUs, element: <AboutUs /> },
                 { path: routes.cart, element: <Cart /> },
+                { path: routes.placeOrder, element: <PlaceOrder /> }, // Thêm route PlaceOrder
             ],
         },
     ]);
