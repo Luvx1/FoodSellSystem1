@@ -2,11 +2,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 4%;
+    padding: 5px 2%;
 }
 .navbar .logo{
-    width: max(10%,80px);
+    width: 130px; /* Hoặc điều chỉnh theo ý muốn */
 }
+
+.dark-mode .logo {
+    filter: invert(1);
+}
+
 
 .navbar .profile{
     width: 40px;
