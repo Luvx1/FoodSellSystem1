@@ -9,12 +9,12 @@ const AdminRoutes = () => {
   return (
     <AdminLayout>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/products" element={<Products />} />
+        <Route index element={<Dashboard />} /> {/* Trang mặc định */}
+        <Route path="users" element={<Users />} />
+        <Route path="products" element={<Products />} />
       </Routes>
     </AdminLayout>
   );
 };
 
-export default AdminRoutes;
+export default AdminRoutes; // ✅ Đảm bảo export default

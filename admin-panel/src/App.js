@@ -1,21 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AdminLayout from "./layouts/AdminLayout";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
-import Products from "./pages/Products";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import AdminRoutes from "./routes/adminRoutes"; // ✅ Import mặc định
 import "./App.css";
 
 function App() {
   return (
     <Router>
-      <AdminLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/products" element={<Products />} />
-        </Routes>
-      </AdminLayout>
+      <Routes>
+        {/* Điều hướng mặc định đến /admin */}
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
+      </Routes>
     </Router>
   );
 }
