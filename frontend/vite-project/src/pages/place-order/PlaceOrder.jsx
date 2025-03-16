@@ -1,8 +1,10 @@
-import { useState } from "react";
-import "./PlaceOrder.css"; // Import CSS
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import "./PlaceOrder.css";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -14,14 +16,33 @@ const PlaceOrder = () => {
         country: "",
         phone: "",
     });
-
+    
+    const [total, setTotal] = useState(2); // Default to delivery fee
+    
+    useEffect(() => {
+        const savedTotal = Cookies.get("cartTotal");
+        if (savedTotal) {
+            setTotal(parseFloat(savedTotal) + 2); // Add delivery fee
+        }
+    }, []);
+    
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Order Data:", formData);
+        
+        // Kiểm tra nếu có trường nào bị bỏ trống
+        for (const key in formData) {
+            if (!formData[key]) {
+                alert("Please fill in all fields.");
+                return;
+            }
+        }
+        
+        Cookies.set("orderInfo", JSON.stringify(formData), { expires: 1 });
+        navigate("/payment");
     };
 
     return (
@@ -44,23 +65,21 @@ const PlaceOrder = () => {
                         <input type="text" name="country" placeholder="Country" onChange={handleChange} />
                     </div>
                     <input type="text" name="phone" placeholder="Phone" onChange={handleChange} />
+                    <button type="submit" className="payment-button">PROCEED TO PAYMENT</button>
                 </form>
             </div>
 
             <div className="cart-summary">
                 <h2>Cart Totals</h2>
                 <div className="cart-total">
-                    <p>Subtotal</p> <span>$0</span>
+                    <p>Subtotal</p> <span>${(total - 2).toFixed(2)}</span>
                 </div>
                 <div className="cart-total">
-                    <p>Delivery Fee</p> <span>$2</span>
+                    <p>Delivery Fee</p> <span>$2.00</span>
                 </div>
                 <div className="cart-total total">
-                    <p>Total</p> <span>$2</span>
+                    <p>Total</p> <span>${total.toFixed(2)}</span>
                 </div>
-                <Link to="/payment">
-                    <button className="payment-button">PROCEED TO PAYMENT</button>
-                </Link>
             </div>
         </div>
     );

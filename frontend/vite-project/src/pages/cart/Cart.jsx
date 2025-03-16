@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
 import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
 import { getCart, removeFromCart, updateCartQuantity } from '../../utils/cartUtils';
 import './Cart.css';
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 
-
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const navigate = useNavigate();
 
     // Load giỏ hàng từ cookies khi component mount
     useEffect(() => {
@@ -36,6 +37,12 @@ const Cart = () => {
     const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const deliveryFee = subtotal > 0 ? 2 : 0;
     const total = subtotal + deliveryFee;
+
+    // Lưu tổng tiền vào cookies và điều hướng đến trang thanh toán
+    const handleProceedToCheckout = () => {
+        Cookies.set("cartTotal", total.toFixed(2), { expires: 1 }); // Lưu tổng tiền trong 1 ngày
+        navigate(routes.placeOrder);
+    };
 
     return (
         <div className="cart-container">
@@ -101,10 +108,9 @@ const Cart = () => {
                                     <span>Total</span> <span>${total.toFixed(2)}</span>
                                 </p>
                             </div>
-                            <Link to={routes.placeOrder} className={`checkout-btn ${cartItems.length === 0 ? "disabled" : ""}`}>
+                            <button onClick={handleProceedToCheckout} className={`checkout-btn ${cartItems.length === 0 ? "disabled" : ""}`}>
                                 PROCEED TO CHECKOUT
-                            </Link>
-
+                            </button>
                         </div>
 
                         <div className="promo-code">

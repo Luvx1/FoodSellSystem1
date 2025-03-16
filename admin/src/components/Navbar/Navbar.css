@@ -8,11 +8,6 @@
     width: 130px; /* Hoặc điều chỉnh theo ý muốn */
 }
 
-.dark-mode .logo {
-    filter: invert(1);
-}
-
-
 .navbar .profile{
     width: 40px;
 }
