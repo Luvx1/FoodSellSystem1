@@ -102,8 +102,8 @@ const Cart = () => {
                                 </p>
                             </div>
                             <Link to={routes.placeOrder} className={`checkout-btn ${cartItems.length === 0 ? "disabled" : ""}`}>
-    PROCEED TO CHECKOUT
-</Link>
+                                PROCEED TO CHECKOUT
+                            </Link>
 
                         </div>
 
