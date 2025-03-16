@@ -1,20 +1,21 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/Dashboard";
 import Users from "../pages/Users";
-import Products from "../pages/Products";
+import AdminProducts from "../pages/AdminProducts";
+import Orders from "../pages/Order";
 
 const AdminRoutes = () => {
   return (
-    <AdminLayout>
-      <Routes>
-        <Route index element={<Dashboard />} /> {/* Trang mặc định */}
+    <Routes>
+      <Route path="/" element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
         <Route path="users" element={<Users />} />
-        <Route path="products" element={<Products />} />
-      </Routes>
-    </AdminLayout>
+        <Route path="products" element={<AdminProducts />} />
+        <Route path="orders" element={<Orders />} />
+      </Route>
+    </Routes>
   );
 };
 
-export default AdminRoutes; // ✅ Đảm bảo export default
+export default AdminRoutes;

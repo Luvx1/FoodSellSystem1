@@ -1,33 +1,49 @@
-import React from "react";
-import { Layout, Menu } from "antd";
-import { DashboardOutlined, UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { Link, Outlet } from "react-router-dom";
+import { Layout, Menu } from 'antd';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import {
+  DashboardOutlined,
+  UserOutlined,
+  ShoppingCartOutlined,
+  AppstoreOutlined,
+} from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const menuItems = [
+    { key: '/admin', label: 'Dashboard', icon: <DashboardOutlined /> },
+    { key: '/admin/users', label: 'Users', icon: <UserOutlined /> },
+    { key: '/admin/products', label: 'Products', icon: <AppstoreOutlined /> },
+    { key: '/admin/orders', label: 'Orders', icon: <ShoppingCartOutlined /> },
+  ];
+
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible>
-        <div className="logo" style={{ height: 50, color: "#fff", textAlign: "center", padding: 10 }}>
+        <div className="logo" style={{ color: 'white', textAlign: 'center', padding: '16px' }}>
           Admin Panel
         </div>
-        <Menu theme="dark" mode="inline">
-          <Menu.Item key="1" icon={<DashboardOutlined />}>
-            <Link to=".">Dashboard</Link>  {/* Đã sửa to="/" thành to="." */}
-          </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
-            <Link to="users">Users</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<ShoppingCartOutlined />}>
-            <Link to="products">Products</Link>
-          </Menu.Item>
-        </Menu>
+        <Menu
+          theme="dark"
+          mode="vertical"
+          selectedKeys={[location.pathname]}
+          items={menuItems.map(({ key, label, icon }) => ({
+            key,
+            icon,
+            label,
+            onClick: () => navigate(key),
+          }))}
+        />
       </Sider>
       <Layout>
-        <Header style={{ background: "#fff", padding: 0, textAlign: "center" }}>Admin Dashboard</Header>
-        <Content style={{ margin: "16px", padding: 24, background: "#fff" }}>
-          <Outlet />  {/* Quan trọng: Outlet hiển thị nội dung trang */}
+        <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontWeight: 'bold' }}>
+          Admin Dashboard
+        </Header>
+        <Content style={{ margin: '16px', padding: '24px', background: '#fff' }}>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
