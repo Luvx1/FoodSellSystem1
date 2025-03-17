@@ -11,6 +11,8 @@ import PromotionDetail from './pages/promotions/PromotionDetail';
 import AboutUs from './pages/about-us/AboutUs';
 import Cart from './pages/cart/Cart';
 import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOrder
+import UserProfile from './pages/user-profile/UserProfile';
+
 
 function App() {
     const router = createBrowserRouter([
@@ -37,6 +39,7 @@ function App() {
                 { path: routes.aboutUs, element: <AboutUs /> },
                 { path: routes.cart, element: <Cart /> },
                 { path: routes.placeOrder, element: <PlaceOrder /> }, // Thêm route PlaceOrder
+                { path: '/user-profile', element: <UserProfile /> }, // Thêm route UserProfile
             ],
         },
     ]);

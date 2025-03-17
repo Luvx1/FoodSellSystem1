@@ -21,6 +21,7 @@ const Profile = () => {
 
             if (response.ok) {
                 message.success("Login successful!");
+                localStorage.setItem("user", JSON.stringify(data.user)); // Lưu thông tin người dùng vào localStorage
                 navigate("/"); // Điều hướng đến trang chủ chính
             } else {
                 message.error(data.message || "Invalid email or password");

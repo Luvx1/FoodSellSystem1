@@ -1,15 +1,15 @@
 import { Menu, Input, Badge } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import './MainHeader.css';
 import logo from '/src/assets/image/Logo.png';
 import { getCartQuantity } from '../../utils/cartUtils';
-import CategoryMenu from '../categorymenu/CategoryMenu';
-import Cookies from 'js-cookie';
 
 export default function MainHeader() {
     const [cartCount, setCartCount] = useState(0);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     // Hàm cập nhật số lượng giỏ hàng
     const updateCartCount = () => {
@@ -25,6 +25,20 @@ export default function MainHeader() {
 
         return () => clearInterval(interval); // Cleanup khi component unmount
     }, []);
+
+    // Kiểm tra người dùng đã đăng nhập
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setUser(null);
+        navigate("/profile");
+    };
 
     return (
         <>
@@ -62,14 +76,26 @@ export default function MainHeader() {
                         </Badge>
                     </Link>
 
-                    <Link to="/profile">
-                        <UserOutlined className="icon" />
-                    </Link>
+                    {user ? (
+                        <div className="user-logged-in">
+                            <span className="username">{user.username}</span>
+                            <div className="dropdown">
+                                <button className="dropbtn">▼</button>
+                                <div className="dropdown-content">
+                                    <Link to="/user-profile">Profile</Link>
+                                    <button onClick={handleLogout}>Log out</button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <Link to="/profile">
+                            <UserOutlined className="icon" />
+                        </Link>
+                    )}
                 </div>
             </div>
 
-            {/* Danh mục món ăn nằm dưới header */}
-            {/* <CategoryMenu /> */}
+            
         </>
     );
 }

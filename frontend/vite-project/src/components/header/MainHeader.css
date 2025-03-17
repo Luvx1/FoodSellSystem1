@@ -40,7 +40,7 @@
 
 /* Khi menu được chọn */
 .main-header .ant-menu-item-selected {
-    background-color: #0056ff !important;
+    
     color: white !important;
     border-radius: 5px;
 }
@@ -108,4 +108,72 @@
 .category-menu .ant-menu-item {
     font-weight: bold;
     margin: 0 20px;
+}
+
+/* ========== DROPDOWN USER ========== */
+.user-logged-in {
+    display: flex;
+    align-items: center;
+}
+
+.user-logged-in .username {
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Đảm bảo dropdown không bị che mất */
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a, .dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-content a:hover, .dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* Bo tròn các nút trong danh mục món ăn */
+.category-item button {
+    border-radius: 50%;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* Đảm bảo nút có kích thước đều */
+    height: 70px; /* Đảm bảo nút có kích thước đều */
+}
+
+.category-item button:hover {
+    background-color: #f1f1f1;
 }
