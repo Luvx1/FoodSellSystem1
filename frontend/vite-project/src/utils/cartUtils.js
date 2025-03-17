@@ -36,7 +36,7 @@ export const removeFromCart = (id) => {
     saveCart(cart);
 };
 
-// ✅ Hàm cập nhật số lượng sản phẩm
+// Hàm cập nhật số lượng sản phẩm
 export const updateCartQuantity = (id, change) => {
     let cart = getCart();
     cart = cart.map((item) => {
@@ -47,8 +47,9 @@ export const updateCartQuantity = (id, change) => {
     });
     saveCart(cart);
 };
+
+// Hàm lấy tổng số lượng sản phẩm trong giỏ hàng
 export const getCartQuantity = () => {
     const cart = getCart();
     return cart.reduce((total, item) => total + item.quantity, 0);
 };
-

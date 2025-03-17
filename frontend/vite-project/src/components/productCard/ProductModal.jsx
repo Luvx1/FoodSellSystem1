@@ -12,7 +12,14 @@ export default function ProductModal({ product, onClose }) {
 
     // Xử lý thêm sản phẩm vào giỏ hàng
     const handleAddToCart = () => {
-        addToCart({ ...product, quantity });
+        addToCart({ 
+            id: product._id, // Sử dụng ID từ MongoDB
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            quantity 
+        });
         alert('Sản phẩm đã được thêm vào giỏ hàng!');
         onClose(); // Đóng modal sau khi thêm vào giỏ hàng
     };

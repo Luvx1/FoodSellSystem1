@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
     // Xử lý thêm sản phẩm vào giỏ hàng
     const handleAddToCart = () => {
         addToCart({
-            id: product.id, // Đảm bảo sản phẩm có id
+            id: product._id, // Sử dụng ID từ MongoDB
             name: product.name,
             description: product.description,
             price: product.price,
