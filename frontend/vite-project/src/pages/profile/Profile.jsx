@@ -1,17 +1,38 @@
-import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import './Profile.css';
+import React from "react";
+import { Button, Checkbox, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import "./Profile.css";
 
 const Profile = () => {
     const navigate = useNavigate(); // Hook điều hướng
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async (values) => {
+        console.log("Success:", values);
+        try {
+            // Chỉ lấy email và password để gửi lên server
+            const { email, password } = values;
+            const response = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }), // Chỉ gửi email và password
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                message.success("Login successful!");
+                navigate("/"); // Điều hướng đến trang chủ chính
+            } else {
+                message.error(data.message || "Invalid email or password");
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
+            message.error("Something went wrong. Please try again.");
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        console.log("Failed:", errorInfo);
     };
 
     return (
@@ -23,18 +44,21 @@ const Profile = () => {
                     layout="vertical"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}>
+                    onFinishFailed={onFinishFailed}
+                >
                     <Form.Item
-                        label="Username"
-                        name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}>
-                        <Input placeholder="Enter your username" />
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: "Please input your email!" }]}
+                    >
+                        <Input placeholder="Enter your email" />
                     </Form.Item>
 
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}>
+                        rules={[{ required: true, message: "Please input your password!" }]}
+                    >
                         <Input.Password placeholder="Enter your password" />
                     </Form.Item>
 
@@ -49,8 +73,7 @@ const Profile = () => {
                     </Form.Item>
                 </Form>
 
-                {/* Thêm nút Back */}
-                <Button type="default" onClick={() => navigate('/')} className="back-button">
+                <Button type="default" onClick={() => navigate("/")} className="back-button">
                     Back to Home
                 </Button>
 

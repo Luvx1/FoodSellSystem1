@@ -9,7 +9,7 @@ const Orders = ({url}) => {
   const [orders,setOrders] = useState([]);
 
   const fetchAllOrders = async () => {
-    const response = await axios.get(url+"/api/order/list");
+    const response = await axios.get(url+"/api/products");
     if (response.data.success){
       setOrders(response.data.data);
       console.log(response.data.data);
@@ -20,7 +20,7 @@ const Orders = ({url}) => {
   }
 
   const statusHandler = async (event,orderId) => {
-    const response = await axios.post(url+"/api/order/status",{
+    const response = await axios.post(url+"/api/products",{
       orderId,
       status:event.target.value
     })

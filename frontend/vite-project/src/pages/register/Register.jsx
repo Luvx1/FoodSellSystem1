@@ -1,46 +1,77 @@
-import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import './Register.css';
+import React from "react";
+import { Button, Form, Input, message, Checkbox } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import "./Register.css";
 
-export default function Register() {
+const Register = () => {
     const navigate = useNavigate(); // Hook điều hướng
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async (values) => {
+        console.log("Success:", values);
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(values), // Gửi toàn bộ giá trị form
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                message.success("Registration successful!");
+                navigate("/profile"); // Điều hướng đến trang Login
+            } else {
+                message.error(data.message || "Registration failed");
+            }
+        } catch (error) {
+            console.error("Registration Error:", error);
+            message.error("Something went wrong. Please try again.");
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        console.log("Failed:", errorInfo);
     };
 
     return (
         <div className="register-container">
             <div className="register-box">
-                <h1 className="register-title">Sign up</h1>
-                <Form name="registerForm" layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                <h2 className="register-title">Sign up</h2>
+                <Form
+                    name="registerForm"
+                    layout="vertical"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
                     <Form.Item
                         label="Your Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please enter your name!' }]}>
+                        name="username"
+                        rules={[{ required: true, message: "Please input your name!" }]}
+                    >
                         <Input placeholder="Enter your name" />
                     </Form.Item>
 
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, type: 'email', message: 'Please enter a valid email!' }]}>
+                        rules={[{ required: true, message: "Please input your email!" }]}
+                    >
                         <Input placeholder="Enter your email" />
                     </Form.Item>
 
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Please enter your password!' }]}>
+                        rules={[{ required: true, message: "Please input your password!" }]}
+                    >
                         <Input.Password placeholder="Enter your password" />
                     </Form.Item>
 
-                    <Form.Item name="agree" valuePropName="checked">
+                    <Form.Item
+                        name="agree"
+                        valuePropName="checked"
+                        rules={[{ validator:(_, value) => value ? Promise.resolve() : Promise.reject('You must agree to the terms') }]}
+                    >
                         <Checkbox>By continuing, I agree to the terms of use & privacy policy</Checkbox>
                     </Form.Item>
 
@@ -51,8 +82,7 @@ export default function Register() {
                     </Form.Item>
                 </Form>
 
-                {/* Thêm nút Back */}
-                <Button type="default" onClick={() => navigate('/')} className="back-button">
+                <Button type="default" onClick={() => navigate("/")} className="back-button">
                     Back to Home
                 </Button>
 
@@ -62,4 +92,6 @@ export default function Register() {
             </div>
         </div>
     );
-}
+};
+
+export default Register;

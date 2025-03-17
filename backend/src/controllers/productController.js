@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Product = require("../models/product");
 
 const ProductController = {
@@ -43,7 +42,14 @@ const ProductController = {
 
     updateProduct: async (req, res) => {
         try {
-            const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const { id } = req.params;
+
+            // Kiểm tra ID có hợp lệ không
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "ID không hợp lệ!" });
+            }
+
+            const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
             if (!updatedProduct) {
                 return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
             }
@@ -55,7 +61,14 @@ const ProductController = {
 
     deleteProduct: async (req, res) => {
         try {
-            const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+            const { id } = req.params;
+
+            // Kiểm tra ID có hợp lệ không
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "ID không hợp lệ!" });
+            }
+
+            const deletedProduct = await Product.findByIdAndDelete(id);
             if (!deletedProduct) {
                 return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
             }
