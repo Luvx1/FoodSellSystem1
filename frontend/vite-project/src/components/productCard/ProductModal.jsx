@@ -1,9 +1,17 @@
 import './ProductModal.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { addToCart } from '../../utils/cartUtils';
+import Cookies from 'js-cookie';
 
 export default function ProductModal({ product, onClose }) {
     const [quantity, setQuantity] = useState(1);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        // Kiểm tra trạng thái đăng nhập khi component mount
+        const userToken = Cookies.get('userToken');
+        setIsLoggedIn(!!userToken);
+    }, []);
 
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => {
@@ -12,6 +20,10 @@ export default function ProductModal({ product, onClose }) {
 
     // Xử lý thêm sản phẩm vào giỏ hàng
     const handleAddToCart = () => {
+        if (!isLoggedIn) {
+            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
+            return;
+        }
         addToCart({ 
             id: product._id, // Sử dụng ID từ MongoDB
             name: product.name,

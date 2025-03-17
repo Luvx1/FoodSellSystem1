@@ -17,12 +17,12 @@ const PlaceOrder = () => {
         phone: "",
     });
     
-    const [total, setTotal] = useState(2); // Default to delivery fee
+    const [total, setTotal] = useState(0); // Default to 0
     
     useEffect(() => {
         const savedTotal = Cookies.get("cartTotal");
         if (savedTotal) {
-            setTotal(parseFloat(savedTotal) + 2); // Add delivery fee
+            setTotal(parseFloat(savedTotal)); // Set total from cookies
         }
     }, []);
     
