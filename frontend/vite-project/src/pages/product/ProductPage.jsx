@@ -13,6 +13,7 @@ import { addToCart } from '../../utils/cartUtils';
 export default function ProductPage() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [productData, setProductData] = useState([]);
+    const [cate, setCate] = useState('New Food');
 
     const categories = [
         { name: 'New Food', img: newFoodImg, link: '/product', cateId: null },
@@ -22,12 +23,19 @@ export default function ProductPage() {
         { name: 'Side Dishes', img: sideDishesImg, link: '/side-dishes', cateId: 4 },
     ];
 
+    const handleChoiceCategory = (cateName, cateId) => {
+        setCate(cateName);
+        handleGetProductByCategory(cateId);
+    };
+
     const fetchProducts = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/products');
             const data = response.data;
-            setProductData(data);
-            console.log('Fetch product success:', data);
+            let listNewFood = data.filter((product) => product.category === cate);
+            listNewFood = listNewFood.slice(0, 10);
+            setProductData(listNewFood);
+            console.log('Fetch product success:', listNewFood);
         } catch (error) {
             console.error('Fetch product error:', error);
         }
@@ -35,7 +43,7 @@ export default function ProductPage() {
 
     useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [cate]);
 
     useEffect(() => {
         if (filteredProducts.length === 0) {
@@ -67,7 +75,7 @@ export default function ProductPage() {
             <div className="category-menu">
                 {categories.map((category, index) => (
                     <div key={index} className="category-item">
-                        <Button onClick={() => handleGetProductByCategory(category.cateId)} className="category-icon">
+                        <Button onClick={() => handleChoiceCategory(category.name, category.cateId)} className="category-icon">
                             <img src={category.img} alt={category.name} />
                         </Button>
                         <p>{category.name}</p>
