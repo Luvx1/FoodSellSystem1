@@ -9,26 +9,25 @@ import { routes } from "../../routes";
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
-    // Load giỏ hàng từ cookies khi component mount
     useEffect(() => {
         setCartItems(getCart());
+        const userToken = Cookies.get('userToken');
+        setIsLoggedIn(!!userToken);
     }, []);
 
-    // Xóa sản phẩm khỏi giỏ hàng
     const handleRemove = (id) => {
         removeFromCart(id);
-        setCartItems(getCart()); // Cập nhật lại state
+        setCartItems(getCart());
     };
 
-    // Tăng số lượng sản phẩm
     const increaseQuantity = (id) => {
         updateCartQuantity(id, 1);
         setCartItems(getCart());
     };
 
-    // Giảm số lượng sản phẩm
     const decreaseQuantity = (id) => {
         updateCartQuantity(id, -1);
         setCartItems(getCart());
@@ -38,9 +37,13 @@ const Cart = () => {
     const deliveryFee = subtotal > 0 ? 2 : 0;
     const total = subtotal + deliveryFee;
 
-    // Lưu tổng tiền vào cookies và điều hướng đến trang thanh toán
     const handleProceedToCheckout = () => {
-        Cookies.set("cartTotal", total.toFixed(2), { expires: 1 }); // Lưu tổng tiền trong 1 ngày
+        if (!isLoggedIn) {
+            alert('Cần đăng nhập để checkout');
+            navigate('/login'); // Điều hướng đến trang đăng nhập
+            return;
+        }
+        Cookies.set("cartTotal", total.toFixed(2), { expires: 1 });
         navigate(routes.placeOrder);
     };
 

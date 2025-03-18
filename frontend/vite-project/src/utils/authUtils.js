@@ -1,4 +1,3 @@
-//filepath: c:\anhkhoi\Project\FoodSellSystem\frontend\vite-project\src\utils\authUtils.js
 import Cookies from 'js-cookie';
 
 export const login = (token) => {
@@ -6,5 +5,5 @@ export const login = (token) => {
 };
 
 export const logout = () => {
-   Cookies.remove('userToken');
+    Cookies.remove('userToken');
 };

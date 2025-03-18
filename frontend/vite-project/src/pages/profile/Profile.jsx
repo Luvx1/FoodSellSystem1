@@ -24,7 +24,7 @@ const Profile = () => {
                 message.success("Login successful!");
                 localStorage.setItem("user", JSON.stringify(data.user)); // Lưu thông tin người dùng vào localStorage
                 login(data.token); // Lưu token vào cookies
-                navigate("/"); // Điều hướng đến trang chủ chính
+                navigate("/cart"); // Điều hướng đến trang giỏ hàng sau khi đăng nhập
             } else {
                 message.error(data.message || "Invalid email or password");
             }
