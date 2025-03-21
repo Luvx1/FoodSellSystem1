@@ -12,7 +12,8 @@ import AboutUs from './pages/about-us/AboutUs';
 import Cart from './pages/cart/Cart';
 import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOrder
 import UserProfile from './pages/user-profile/UserProfile';
-
+import { ToastContainer } from 'react-toastify';
+import ProductDetailPage from './pages/productDetail/ProductDetailPage';
 
 function App() {
     const router = createBrowserRouter([
@@ -25,10 +26,6 @@ function App() {
             element: <Register />,
         },
         {
-            path: routes.profile,
-            element: <Profile />,
-        },
-        {
             path: routes.home,
             element: <MainLayout />,
             children: [
@@ -39,12 +36,18 @@ function App() {
                 { path: routes.aboutUs, element: <AboutUs /> },
                 { path: routes.cart, element: <Cart /> },
                 { path: routes.placeOrder, element: <PlaceOrder /> }, // Thêm route PlaceOrder
-                { path: '/user-profile', element: <UserProfile /> }, // Thêm route UserProfile
+                { path: routes.profile, element: <UserProfile /> }, // Thêm route UserProfile
+                { path: routes.productDetail, element: <ProductDetailPage /> },
             ],
         },
     ]);
 
-    return <RouterProvider router={router} />;
+    return (
+        <>
+            <ToastContainer position="top-right" reverseOrder={false} />
+            <RouterProvider router={router} />
+        </>
+    );
 }
 
 export default App;

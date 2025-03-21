@@ -11,4 +11,5 @@ export const routes = {
     aboutUs: '/about-us',
     cart: '/cart',
     placeOrder: '/place-order',
+    productDetail: '/product/:id',
 };

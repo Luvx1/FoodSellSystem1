@@ -16,6 +16,19 @@ const UserSchema = new mongoose.Schema(
         },
         role: { type: String, enum: ['customer', 'vendor', 'admin'], default: 'customer' },
         bio: { type: String, default: '' },
+        refreshTokens: [
+            {
+                token: {
+                    type: String,
+                    required: true,
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now,
+                    expires: '7d', // Auto-expire after 7 days
+                },
+            },
+        ],
     },
     { timestamps: true }
 );

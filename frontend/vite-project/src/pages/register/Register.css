@@ -138,3 +138,18 @@
 .checkbox-group label a:hover {
     text-decoration: underline;
 }
+
+.form-item {
+  margin-bottom: 16px;
+}
+
+.form-item label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 4px;
+}

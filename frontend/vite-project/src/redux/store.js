@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
 import rootReducer from './rootReducer';
-import persistStore from 'redux-persist/es/persistStore';
+import { persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', 'quiz', 'order'],
+    whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

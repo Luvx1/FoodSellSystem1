@@ -1,8 +1,8 @@
-// index.js
 require('dotenv').config();
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +16,9 @@ mongoose
     })
     .then(() => console.log('✅ Kết nối MongoDB thành công!'))
     .catch((err) => console.error('❌ Không thể kết nối MongoDB:', err.message));
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use(express.json());
 app.use(

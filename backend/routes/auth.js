@@ -27,7 +27,55 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-// ...rest of your code remains the same
+router.post('/refresh-token', async (req, res) => {
+    const { refreshToken } = req.body;
+
+    // Kiểm tra refresh token có được cung cấp hay không
+    if (!refreshToken) {
+        return res.status(401).json({ message: 'Refresh token là bắt buộc' });
+    }
+
+    try {
+        // Xác thực refresh token
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh');
+
+        // Kiểm tra người dùng có tồn tại không và token có trong database không
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+        }
+
+        // Kiểm tra xem refresh token có tồn tại trong database không
+        const tokenExists = user.refreshTokens && user.refreshTokens.some((t) => t.token === refreshToken);
+        if (!tokenExists) {
+            return res.status(403).json({ message: 'Refresh token không hợp lệ hoặc đã bị thu hồi' });
+        }
+
+        // Tạo access token mới
+        const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Tạo refresh token mới (token rotation)
+        const newRefreshToken = jwt.sign(
+            { userId: user.id },
+            process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
+            { expiresIn: '7d' }
+        );
+
+        // Xóa refresh token cũ và thêm refresh token mới
+        user.refreshTokens = user.refreshTokens.filter((t) => t.token !== refreshToken);
+        user.refreshTokens.push({ token: newRefreshToken });
+        await user.save();
+
+        res.json({
+            accessToken,
+            refreshToken: newRefreshToken,
+            message: 'Tạo mới token thành công',
+        });
+    } catch (err) {
+        console.error(err.message);
+        return res.status(403).json({ message: 'Refresh token không hợp lệ hoặc đã hết hạn' });
+    }
+});
 
 // API: Đăng ký user mới
 router.post(
@@ -57,14 +105,34 @@ router.post(
             const hashedPassword = await bcrypt.hash(password, salt);
 
             // Tạo user mới
-            user = new User({ name, email, password: hashedPassword });
+            user = new User({
+                name,
+                email,
+                password: hashedPassword,
+                role: 'customer',
+                avatar: 'https://cloud.appwrite.io/v1/storage/buckets/67dbb6420032d8a2ee8f/files/67dbcb3d26027f2e8bc1/view?project=67dbb339000bfac45e0d',
+            });
             await user.save();
 
-            // Tạo token JWT
-            const payload = { userId: user.id };
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+            // Tạo access token
+            const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            res.status(201).json({ message: 'Đăng ký thành công!', token });
+            // Tạo refresh token
+            const refreshToken = jwt.sign(
+                { userId: user.id },
+                process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
+                { expiresIn: '7d' }
+            );
+
+            // Lưu refresh token vào database
+            user.refreshTokens = [{ token: refreshToken }];
+            await user.save();
+
+            res.status(201).json({
+                message: 'Đăng ký thành công!',
+                accessToken,
+                refreshToken,
+            });
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Lỗi Server');
@@ -100,17 +168,91 @@ router.post(
                 return res.status(400).json({ message: 'Mật khẩu không chính xác!' });
             }
 
-            // Tạo token JWT
-            const payload = { userId: user.id };
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+            // Tạo access token (ngắn hạn - 1 giờ)
+            const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            res.status(200).json({ message: 'Đăng nhập thành công!', token });
+            // Tạo refresh token (dài hạn - 7 ngày)
+            const refreshToken = jwt.sign(
+                { userId: user.id },
+                process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
+                { expiresIn: '7d' }
+            );
+
+            // Lưu refresh token vào database
+            user.refreshTokens = user.refreshTokens || [];
+            user.refreshTokens.push({ token: refreshToken });
+            await user.save();
+
+            res.status(200).json({
+                message: 'Đăng nhập thành công!',
+                accessToken,
+                refreshToken,
+            });
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Lỗi Server');
         }
     }
 );
+router.post('/logout', authMiddleware, async (req, res) => {
+    const { refreshToken } = req.body;
+    const userId = req.user.userId;
+
+    try {
+        // Tìm user và xóa refresh token
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+        }
+
+        if (refreshToken) {
+            // Xóa một refresh token cụ thể
+            user.refreshTokens = user.refreshTokens.filter((t) => t.token !== refreshToken);
+        } else {
+            // Xóa tất cả refresh token (đăng xuất khỏi tất cả thiết bị)
+            user.refreshTokens = [];
+        }
+
+        await user.save();
+        res.json({ message: 'Đăng xuất thành công' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Lỗi Server');
+    }
+});
+// API: Lấy thông tin người dùng hiện tại
+router.get('/me', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        // Tìm user theo ID từ token và loại bỏ các trường nhạy cảm
+        const user = await User.findById(userId).select('-password -refreshTokens');
+
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+        }
+
+        // Trả về tất cả thông tin người dùng trừ các trường nhạy cảm
+        res.json({
+            success: true,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                avatar: user.avatar,
+                phoneNumber: user.phoneNumber,
+                address: user.address,
+                role: user.role,
+                bio: user.bio,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+            },
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ message: 'Lỗi Server' });
+    }
+});
 
 // API: Thay đổi mật khẩu người dùng
 router.put(

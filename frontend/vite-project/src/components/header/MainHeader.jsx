@@ -1,44 +1,75 @@
-import { Menu, Input, Badge } from 'antd';
+import { Menu, Input, Badge, Avatar, Dropdown } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './MainHeader.css';
 import logo from '/src/assets/image/Logo.png';
-import { getCartQuantity } from '../../utils/cartUtils';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+import api from '../../utils/api';
+import { toast } from 'react-toastify';
+import { selectCartItems } from '../../redux/feature/cartSlice';
+import { routes } from '../../routes';
 
 export default function MainHeader() {
-    const [cartCount, setCartCount] = useState(0);
-    const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const cartItems = useSelector(selectCartItems);
+    const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const [user, setUser] = useState(null);
+    const prevUserCookieRef = useRef(null);
 
-    // Hàm cập nhật số lượng giỏ hàng
-    const updateCartCount = () => {
-        setCartCount(getCartQuantity());
-    };
-
-    // Theo dõi thay đổi cookies
-    useEffect(() => {
-        updateCartCount(); // Cập nhật lần đầu khi render
-
-        // Kiểm tra cookies mỗi 1 giây
-        const interval = setInterval(updateCartCount, 1000);
-
-        return () => clearInterval(interval); // Cleanup khi component unmount
-    }, []);
-
-    // Kiểm tra người dùng đã đăng nhập
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+    // Add logout handler function
+    const handleLogout = async () => {
+        try {
+            const response = await api.post('/auth/logout', {
+                refreshToken: Cookies.get('refreshToken'),
+            });
+            Cookies.remove('accessToken');
+            Cookies.remove('refreshToken');
+            Cookies.remove('user');
+            toast.success(response.data.message);
+            setUser(null);
+            navigate('/');
+        } catch (error) {
+            console.error('Failed to log out', error);
         }
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem("user");
-        setUser(null);
-        navigate("/profile");
     };
+
+    // Then define items that use the handleLogout function
+    const items = [
+        {
+            key: '1',
+            label: <Link to={routes.profile}>Profile</Link>,
+        },
+        {
+            key: '2',
+            label: <a onClick={handleLogout}>Log out</a>,
+        },
+    ];
+    useEffect(() => {
+        // Explicitly bind prevUserCookieRef to avoid scope issues
+        function updateUserFromCookies() {
+            const userCookie = Cookies.get('user');
+            // Only update if the cookie has changed
+            if (userCookie !== prevUserCookieRef.current) {
+                prevUserCookieRef.current = userCookie;
+                try {
+                    setUser(userCookie ? JSON.parse(userCookie) : null);
+                } catch (error) {
+                    console.error('failed to parse user', error);
+                    setUser(null);
+                }
+            }
+        }
+
+        // Initial update
+        updateUserFromCookies();
+
+        // Check for cookie changes periodically
+        const cookieCheckInterval = setInterval(updateUserFromCookies, 1000);
+
+        return () => clearInterval(cookieCheckInterval);
+    }, []);
 
     return (
         <>
@@ -66,36 +97,37 @@ export default function MainHeader() {
                 </div>
 
                 {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
+                {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
                 <div className="right-icons">
                     <Input.Search placeholder="Search..." allowClear enterButton={<SearchOutlined />} />
 
                     {/* Hiển thị số lượng giỏ hàng */}
                     <Link to="/cart">
-                        <Badge count={cartCount} showZero>
+                        <Badge count={totalCartItems} showZero>
                             <ShoppingCartOutlined className="icon" />
                         </Badge>
                     </Link>
 
                     {user ? (
-                        <div className="user-logged-in">
-                            <span className="username">{user.username}</span>
-                            <div className="dropdown">
-                                <button className="dropbtn">▼</button>
-                                <div className="dropdown-content">
-                                    <Link to="/user-profile">Profile</Link>
-                                    <button onClick={handleLogout}>Log out</button>
-                                </div>
-                            </div>
-                        </div>
+                        <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                            <Avatar
+                                src={
+                                    user.avatar ||
+                                    'https://cloud.appwrite.io/v1/storage/buckets/67dbb6420032d8a2ee8f/files/67dbcb3d26027f2e8bc1/view?project=67dbb339000bfac45e0d'
+                                }
+                                style={{ cursor: 'pointer' }}
+                                onError={() => {
+                                    return true;
+                                }}
+                            />
+                        </Dropdown>
                     ) : (
-                        <Link to="/profile">
+                        <Link to={routes.login}>
                             <UserOutlined className="icon" />
                         </Link>
                     )}
                 </div>
             </div>
-
-            
         </>
     );
 }

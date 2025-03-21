@@ -1,57 +1,60 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { Card, Button, Typography } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductCard.css';
-import ProductModal from './ProductModal';
-import { addToCart } from '../../utils/cartUtils';
-import Cookies from 'js-cookie';
 
-export default function ProductCard({ product }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const { Meta } = Card;
+const { Text } = Typography;
 
-    useEffect(() => {
-        // Kiểm tra trạng thái đăng nhập khi component mount
-        const userToken = Cookies.get('userToken');
-        setIsLoggedIn(!!userToken);
-    }, []);
-
-    const openModal = () => {
-        if (!isLoggedIn) {
-            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
-            return;
-        }
-        setIsModalOpen(true);
+const ProductCard = ({ product, onAddToCart, onClick }) => {
+    // Format price to Vietnamese currency
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        }).format(price);
     };
 
-    const closeModal = () => setIsModalOpen(false);
-
-    // Xử lý thêm sản phẩm vào giỏ hàng
-    const handleAddToCart = () => {
-        if (!isLoggedIn) {
-            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
-            return;
-        }
-        addToCart({
-            id: product._id, // Sử dụng ID từ MongoDB
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            image: product.image,
-            quantity: 1,
-        });
-        alert('Sản phẩm đã được thêm vào giỏ hàng!');
+    // Handle add to cart without triggering navigation
+    const handleAddToCart = (e) => {
+        e.stopPropagation(); // Prevent click from bubbling up to card
+        onAddToCart();
     };
 
     return (
-        <>
-            <div className="product-card" onClick={openModal}>
-                <img src={product.image} alt={product.name} className="product-image" />
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-description">{product.description}</p>
-                <p className="product-price">$ {product.price}</p>
+        <Card
+            hoverable
+            className="product-card"
+            cover={
+                <div className="product-image-container" onClick={onClick}>
+                    <img
+                        alt={product.name}
+                        src={product.image || 'https://via.placeholder.com/300x200?text=No+Image'}
+                        className="product-image"
+                    />
+                </div>
+            }
+            onClick={onClick}>
+            <Meta
+                title={product.name}
+                description={
+                    <div className="product-description">
+                        <Text ellipsis={{ rows: 2 }}>{product.description}</Text>
+                        <div className="product-price">{formatPrice(product.price)}</div>
+                    </div>
+                }
+            />
+            <div className="product-actions">
+                <Button
+                    type="primary"
+                    icon={<ShoppingCartOutlined />}
+                    onClick={handleAddToCart}
+                    className="add-to-cart-btn">
+                    Add to Cart
+                </Button>
             </div>
-
-            {/* Hiển thị modal khi bấm vào card */}
-            {isModalOpen && <ProductModal product={product} onClose={closeModal} onAddToCart={handleAddToCart} />}
-        </>
+        </Card>
     );
-}
+};
+
+export default ProductCard;

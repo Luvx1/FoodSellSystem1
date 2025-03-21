@@ -1,93 +1,194 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../../components/productCard/ProductCard';
 import './ProductPage.css';
-import newFoodImg from '../../assets/image/new.jpg';
-import Burger from '../../assets/image/burger.jpg';
-import Beef from '../../assets/image/B1.png';
-import friedChickenImg from '../../assets/image/chicken.jpg';
-import sideDishesImg from '../../assets/image/side_dishes.jpg';
-import { Button } from 'antd';
-import axios from 'axios';
-import { addToCart } from '../../utils/cartUtils';
+
+import { Button, Input, Slider, Select, Card, Row, Col, Typography, Empty, Space } from 'antd';
+import { SearchOutlined, FilterOutlined, DollarOutlined, MenuOutlined } from '@ant-design/icons';
+import api from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
+
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 export default function ProductPage() {
+    const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [productData, setProductData] = useState([]);
-    const [cate, setCate] = useState('New Food');
+    const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
-    const categories = [
-        { name: 'New Food', img: newFoodImg, link: '/product', cateId: null },
-        { name: 'Burger', img: Burger, link: '/burger', cateId: 1 },
-        { name: 'Beef', img: Beef, link: '/beef', cateId: 2 },
-        { name: 'Fried Chicken', img: friedChickenImg, link: '/fried-chicken', cateId: 3 },
-        { name: 'Side Dishes', img: sideDishesImg, link: '/side-dishes', cateId: 4 },
-    ];
+    // Filter states
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [priceRange, setPriceRange] = useState([0, 500000]); // Default range in VND
+    const [searchTerm, setSearchTerm] = useState('');
+    const [maxPrice, setMaxPrice] = useState(500000); // Default max price
 
-    const handleChoiceCategory = (cateName, cateId) => {
-        setCate(cateName);
-        handleGetProductByCategory(cateId);
-    };
-
-    const fetchProducts = async () => {
+    const handleFetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/products');
-            const data = response.data;
-            let listNewFood = data.filter((product) => product.category === cate);
-            listNewFood = listNewFood.slice(0, 10);
-            setProductData(listNewFood);
-            console.log('Fetch product success:', listNewFood);
+            const response = await api.get('/products');
+            console.log(response.data);
+
+            // Set products
+            setProducts(response.data);
+            setFilteredProducts(response.data);
+
+            // Extract unique categories
+            extractCategories(response.data);
+
+            // Find max price for slider
+            findMaxPrice(response.data);
         } catch (error) {
-            console.error('Fetch product error:', error);
-        }
-    }
-
-    useEffect(() => {
-        fetchProducts();
-    }, [cate]);
-
-    useEffect(() => {
-        if (filteredProducts.length === 0) {
-            setFilteredProducts(productData);
-        }
-    }, [productData]);
-
-    const handleGetProductByCategory = (cateId) => {
-        if (cateId === null) {
-            setFilteredProducts(productData.filter((p) => !p.cateId));
-        } else {
-            setFilteredProducts(productData.filter((p) => p.cateId === cateId));
+            setProducts([]);
+            setFilteredProducts([]);
+            console.log(error);
         }
     };
 
+    // Extract unique categories
+    const extractCategories = (productData) => {
+        const uniqueCategories = ['All', ...new Set(productData.map((product) => product.category))];
+        setCategories(uniqueCategories);
+    };
+
+    // Find maximum price for the slider
+    const findMaxPrice = (productData) => {
+        if (productData.length > 0) {
+            const highest = Math.max(...productData.map((product) => product.price));
+            // Round up to nearest 100,000 VND for a better range
+            const roundedMax = Math.ceil(highest / 100000) * 100000;
+            setMaxPrice(roundedMax);
+            setPriceRange([0, roundedMax]);
+        }
+    };
+
+    // Handle category selection
+    const handleCategoryChange = (value) => {
+        setSelectedCategory(value);
+    };
+
+    // Handle price range change
+    const handlePriceRangeChange = (value) => {
+        setPriceRange(value);
+    };
+
+    // Handle search input
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    // Apply all filters
+    useEffect(() => {
+        let result = [...products];
+
+        // Apply category filter
+        if (selectedCategory !== 'All') {
+            result = result.filter((product) => product.category === selectedCategory);
+        }
+
+        // Apply price range filter
+        result = result.filter((product) => product.price >= priceRange[0] && product.price <= priceRange[1]);
+
+        // Apply search filter
+        if (searchTerm.trim()) {
+            const searchLower = searchTerm.toLowerCase();
+            result = result.filter(
+                (product) =>
+                    product.name.toLowerCase().includes(searchLower) ||
+                    product.description.toLowerCase().includes(searchLower)
+            );
+        }
+
+        setFilteredProducts(result);
+    }, [selectedCategory, priceRange, searchTerm, products]);
+
+    // Format price display
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        }).format(price);
+    };
+
+    useEffect(() => {
+        handleFetchProducts();
+    }, []);
+
+    // Handle add to cart (implement this function as needed)
     const handleAddToCart = (product) => {
-        const newProduct = {
-            id: product._id, // Sử dụng ID từ MongoDB
-            name: product.name,
-            price: product.price,
-            quantity: 1,
-            image: product.image
-        };
-        addToCart(newProduct);
+        // Your cart logic here
+        console.log('Adding to cart:', product);
     };
 
     return (
         <div className="product-page">
-            <div className="category-menu">
-                {categories.map((category, index) => (
-                    <div key={index} className="category-item">
-                        <Button onClick={() => handleChoiceCategory(category.name, category.cateId)} className="category-icon">
-                            <img src={category.img} alt={category.name} />
-                        </Button>
-                        <p>{category.name}</p>
+            {/* Search and Filter Row */}
+            <Row gutter={[16, 24]} className="filter-section">
+                <Col xs={24} md={8} lg={8}>
+                    <Input
+                        placeholder="Search by name or description..."
+                        prefix={<SearchOutlined />}
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        size="large"
+                    />
+                </Col>
+                <Col xs={24} md={8} lg={8}>
+                    <div className="filter-label">
+                        <FilterOutlined /> <span>Category</span>
                     </div>
-                ))}
+                    <Select
+                        value={selectedCategory}
+                        onChange={handleCategoryChange}
+                        style={{ width: '100%' }}
+                        size="large"
+                        dropdownMatchSelectWidth={false}>
+                        {categories.map((category) => (
+                            <Option key={category} value={category}>
+                                {category}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
+                <Col xs={24} md={8} lg={8}>
+                    <div className="filter-label">
+                        <DollarOutlined /> <span>Price Range</span>
+                    </div>
+                    <Slider
+                        range
+                        min={0}
+                        max={maxPrice}
+                        step={10000}
+                        value={priceRange}
+                        onChange={handlePriceRangeChange}
+                        tipFormatter={(value) => formatPrice(value)}
+                    />
+                    <div className="price-display">
+                        <Text>{formatPrice(priceRange[0])}</Text>
+                        <Text>{formatPrice(priceRange[1])}</Text>
+                    </div>
+                </Col>
+            </Row>
+
+            {/* Product Section Title */}
+            <div className="section-header">
+                <Title level={3}>Our Products</Title>
+                <Text type="secondary">{filteredProducts.length} items found</Text>
             </div>
-            <h1>Explore our menu</h1>
-            <div className="wrapper-product">
-                {filteredProducts.map((product, index) => (
-                    <ProductCard key={index} product={product} onAddToCart={() => handleAddToCart(product)} />
-                ))}
-            </div>
+
+            {/* Product Grid */}
+            {filteredProducts.length > 0 ? (
+                <div className="wrapper-product">
+                    {filteredProducts.map((product, index) => (
+                        <ProductCard
+                            key={product._id || index}
+                            product={product}
+                            onAddToCart={() => handleAddToCart(product)}
+                            onClick={() => navigate(`/product/${product._id}`)}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <Empty description="No products match your criteria" style={{ margin: '40px 0' }} />
+            )}
         </div>
     );
 }
