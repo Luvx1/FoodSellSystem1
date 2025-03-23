@@ -35,17 +35,32 @@ export default function MainHeader() {
         }
     };
 
-    // Then define items that use the handleLogout function
-    const items = [
-        {
-            key: '1',
-            label: <Link to={routes.profile}>Profile</Link>,
-        },
-        {
-            key: '2',
-            label: <a onClick={handleLogout}>Log out</a>,
-        },
-    ];
+    // Define dropdown menu items with conditional dashboard option for admin
+    const getMenuItems = () => {
+        const menuItems = [
+            {
+                key: '1',
+                label: <Link to={routes.profile}>Profile</Link>,
+            },
+            {
+                key: '2',
+                label: <a onClick={handleLogout}>Log out</a>,
+            },
+        ];
+
+        // Check if user is an admin (handle both possible structures)
+        const isAdmin = user && (user.role === 'admin' || (user.user && user.user.role === 'admin'));
+
+        if (isAdmin) {
+            menuItems.unshift({
+                key: '0',
+                label: <Link to={routes.manageProduct}>Dashboard</Link>,
+            });
+        }
+
+        return menuItems;
+    };
+
     useEffect(() => {
         // Explicitly bind prevUserCookieRef to avoid scope issues
         function updateUserFromCookies() {
@@ -97,7 +112,6 @@ export default function MainHeader() {
                 </div>
 
                 {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
-                {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
                 <div className="right-icons">
                     <Input.Search placeholder="Search..." allowClear enterButton={<SearchOutlined />} />
 
@@ -109,7 +123,7 @@ export default function MainHeader() {
                     </Link>
 
                     {user ? (
-                        <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                        <Dropdown menu={{ items: getMenuItems() }} placement="bottomRight" arrow>
                             <Avatar
                                 src={
                                     user.avatar ||

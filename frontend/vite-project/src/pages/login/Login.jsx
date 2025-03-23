@@ -49,7 +49,11 @@ export default function Login() {
             });
 
             toast.success('Login successfully');
-            navigate(routes.home);
+            if (user.user.role === 'admin') {
+                navigate(routes.manageProduct);
+            } else {
+                navigate(routes.home);
+            }
         } catch (error) {
             console.error('Login error:', error);
             toast.error(error.response?.data?.message || 'Login failed. Please try again.');

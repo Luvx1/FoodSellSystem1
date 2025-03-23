@@ -14,6 +14,9 @@ import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOr
 import UserProfile from './pages/user-profile/UserProfile';
 import { ToastContainer } from 'react-toastify';
 import ProductDetailPage from './pages/productDetail/ProductDetailPage';
+import ProtectedRoute from './routes/ProtectedRoute';
+import ManageProduct from './pages/dashboard/ManageProduct';
+import RestrictedPage from './pages/errorPage/RestrictedPage';
 
 function App() {
     const router = createBrowserRouter([
@@ -35,9 +38,21 @@ function App() {
                 { path: '/promotion/:id', element: <PromotionDetail /> },
                 { path: routes.aboutUs, element: <AboutUs /> },
                 { path: routes.cart, element: <Cart /> },
-                { path: routes.placeOrder, element: <PlaceOrder /> }, // Thêm route PlaceOrder
-                { path: routes.profile, element: <UserProfile /> }, // Thêm route UserProfile
+                { path: routes.placeOrder, element: <PlaceOrder /> },
+                { path: routes.profile, element: <UserProfile /> },
                 { path: routes.productDetail, element: <ProductDetailPage /> },
+                {
+                    path: routes.manageProduct,
+                    element: (
+                        <ProtectedRoute roles={['admin']}>
+                            <ManageProduct />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: routes.restricted,
+                    element: <RestrictedPage />,
+                },
             ],
         },
     ]);

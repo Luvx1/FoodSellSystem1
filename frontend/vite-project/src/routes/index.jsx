@@ -12,4 +12,6 @@ export const routes = {
     cart: '/cart',
     placeOrder: '/place-order',
     productDetail: '/product/:id',
+    manageProduct: '/manage-product',
+    restricted: '/restricted',
 };

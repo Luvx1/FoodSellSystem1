@@ -56,7 +56,7 @@ router.post('/refresh-token', async (req, res) => {
 
         // Tạo refresh token mới (token rotation)
         const newRefreshToken = jwt.sign(
-            { userId: user.id },
+            { userId: user.id, role: user.role },
             process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
             { expiresIn: '7d' }
         );
@@ -115,11 +115,13 @@ router.post(
             await user.save();
 
             // Tạo access token
-            const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const accessToken = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, {
+                expiresIn: '1h',
+            });
 
             // Tạo refresh token
             const refreshToken = jwt.sign(
-                { userId: user.id },
+                { userId: user.id, role: user.role },
                 process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
                 { expiresIn: '7d' }
             );
@@ -169,11 +171,13 @@ router.post(
             }
 
             // Tạo access token (ngắn hạn - 1 giờ)
-            const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const accessToken = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, {
+                expiresIn: '1h',
+            });
 
             // Tạo refresh token (dài hạn - 7 ngày)
             const refreshToken = jwt.sign(
-                { userId: user.id },
+                { userId: user.id, role: user.role },
                 process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET + '_refresh',
                 { expiresIn: '7d' }
             );

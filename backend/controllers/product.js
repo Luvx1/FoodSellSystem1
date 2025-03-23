@@ -84,12 +84,11 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findByIdAndDelete(id);
         if (!product) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại!' });
         }
 
-        await product.remove();
         res.status(200).json({ message: 'Sản phẩm đã được xóa!' });
     } catch (err) {
         console.error(err.message);
