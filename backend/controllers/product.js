@@ -21,6 +21,7 @@ const createProduct = async (req, res) => {
             description,
             price,
             category,
+            image,
         });
 
         await newProduct.save();

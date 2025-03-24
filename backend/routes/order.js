@@ -4,12 +4,11 @@ const jwt = require('jsonwebtoken');
 const {
     createOrder,
     getAllOrders,
-    getOrderById,
-    getOrdersByUser,
-    updateOrder,
     updateOrderStatus,
     cancelOrder,
-    deleteOrder,
+    orderConfirm,
+    getUserOrders,
+    getOrderDetails,
 } = require('../controllers/order');
 
 // Middleware bảo vệ route - xác thực JWT token
@@ -32,37 +31,55 @@ const protect = (req, res, next) => {
     }
 };
 
-// Middleware xác thực quyền admin
+// Admin middleware - kiểm tra quyền admin
 const admin = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
-        next();
-    } else {
-        res.status(403).json({ message: 'Bạn không có quyền truy cập chức năng này' });
+    const authHeader = req.header('Authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Không có token, quyền truy cập bị từ chối' });
+    }
+
+    try {
+        // Lấy token từ header
+        const token = authHeader.split(' ')[1];
+
+        // Decode JWT token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        console.log('Decoded token:', decoded); // Log để debug
+
+        // Kiểm tra role admin
+        if (decoded && decoded.role === 'admin') {
+            // Lưu thông tin user để sử dụng trong các handler tiếp theo
+            req.user = decoded;
+            next();
+        } else {
+            return res.status(403).json({
+                message: 'Truy cập bị từ chối, yêu cầu quyền quản trị viên',
+            });
+        }
+    } catch (err) {
+        console.error('JWT verification error:', err);
+        return res.status(401).json({ message: 'Token không hợp lệ hoặc hết hạn' });
     }
 };
-
+// Lấy tất cả đơn hàng (chỉ admin)
+router.get('/', protect, admin, getAllOrders);
 // Tạo đơn hàng mới
 router.post('/', protect, createOrder);
 
-// Lấy tất cả đơn hàng (chỉ admin)
-router.get('/', protect, admin, getAllOrders);
-
-// Lấy đơn hàng theo user ID
-router.get('/user/:userId', protect, getOrdersByUser);
-
-// Lấy đơn hàng theo ID
-router.get('/:id', protect, getOrderById);
-
-// Cập nhật đơn hàng
-router.put('/:id', protect, updateOrder);
-
-// Cập nhật trạng thái đơn hàng
+// Cập nhật trạng thái đơn hàng (chỉ admin)
 router.patch('/:id/status', protect, admin, updateOrderStatus);
 
-// Hủy đơn hàng
+// Hủy đơn hàng (cho người dùng)
 router.patch('/:id/cancel', protect, cancelOrder);
 
-// Xóa đơn hàng (chỉ admin)
-router.delete('/:id', protect, admin, deleteOrder);
+// Xác nhận đơn hàng
+router.patch('/:id/confirm', protect, orderConfirm);
+// User order history
+router.get('/user/history', protect, getUserOrders);
+
+// Get order details
+router.get('/:id', protect, getOrderDetails);
 
 module.exports = router;

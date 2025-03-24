@@ -5,6 +5,8 @@ import { Table, Input, Button, Space, Image, Typography, Tag, Popconfirm, messag
 import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
+import { routes } from '../../routes';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -21,6 +23,8 @@ export default function ManageProduct() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+    const [isNewCategory, setIsNewCategory] = useState(false);
+
 
     const handleFetchAllProducts = async () => {
         setLoading(true);
@@ -113,7 +117,16 @@ export default function ManageProduct() {
 
     const handleUpdateSubmit = async (values) => {
         try {
-            await api.put(`products/${currentProduct._id}`, values);
+            // Create a new object with only the fields needed for the update
+            const updateData = {
+                name: values.name,
+                description: values.description,
+                price: values.price,
+                category: values.category || '', // Handle empty category
+                image: values.image || '', // Handle empty image
+            };
+
+            await api.put(`products/${currentProduct._id}`, updateData);
             message.success('Product updated successfully');
             setIsModalVisible(false);
             handleFetchAllProducts();
@@ -125,6 +138,10 @@ export default function ManageProduct() {
 
     const handleCreateSubmit = async (values, { resetForm }) => {
         try {
+            const productData = {
+                ...values,
+                category: values.category === 'new' ? values.newCategory : values.category,
+            };
             await api.post('products', values);
             message.success('Product created successfully');
             setIsCreateModalVisible(false);
@@ -153,6 +170,10 @@ export default function ManageProduct() {
         description: Yup.string().required('Description is required'),
         price: Yup.number().required('Price is required').positive('Price must be positive'),
         category: Yup.string().required('Category is required'),
+        newCategory: Yup.string().when('category', {
+            is: 'new',
+            then: Yup.string().required('New category name is required'),
+        }),
         image: Yup.string(),
     });
 
@@ -240,6 +261,9 @@ export default function ManageProduct() {
                 <Button type="primary" onClick={handleCreateModalOpen} style={{ marginBottom: '16px' }}>
                     Create Product
                 </Button>
+                <Link to={routes.manageOrders}>
+                    <Button type="primary">Manage Orders</Button>
+                </Link>
             </div>
 
             <Table
@@ -254,7 +278,108 @@ export default function ManageProduct() {
 
             {/* Product Edit Modal with Formik - Existing code */}
             <Modal title="Edit Product" open={isModalVisible} onCancel={handleCancel} footer={null} width={800}>
-                {/* ...existing edit modal code... */}
+                {currentProduct && (
+                    <Formik
+                        initialValues={{
+                            name: currentProduct.name || '',
+                            description: currentProduct.description || '',
+                            price: currentProduct.price || 0,
+                            category: currentProduct.category || '',
+                            image: currentProduct.image || '',
+                        }}
+                        validationSchema={ProductSchema}
+                        onSubmit={handleUpdateSubmit}>
+                        {({ isSubmitting, errors, touched, handleSubmit }) => (
+                            <Form>
+                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                    <label htmlFor="name">Product Name</label>
+                                    <Field name="name" className="ant-input" style={{ width: '100%' }} />
+                                    <ErrorMessage
+                                        name="name"
+                                        component="div"
+                                        className="text-danger"
+                                        style={{ color: 'red' }}
+                                    />
+                                </div>
+
+                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                    <label htmlFor="description">Description</label>
+                                    <Field
+                                        as="textarea"
+                                        name="description"
+                                        className="ant-input"
+                                        style={{ width: '100%', minHeight: '100px' }}
+                                    />
+                                    <ErrorMessage
+                                        name="description"
+                                        component="div"
+                                        className="text-danger"
+                                        style={{ color: 'red' }}
+                                    />
+                                </div>
+
+                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                    <label htmlFor="price">Price (đ)</label>
+                                    <Field type="number" name="price" className="ant-input" style={{ width: '100%' }} />
+                                    <ErrorMessage
+                                        name="price"
+                                        component="div"
+                                        className="text-danger"
+                                        style={{ color: 'red' }}
+                                    />
+                                </div>
+
+                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                    <label htmlFor="category">Category</label>
+                                    <Field
+                                        name="category"
+                                        as="select"
+                                        className="ant-select"
+                                        style={{ width: '100%', height: '32px' }}>
+                                        <option value="">Select Category</option>
+                                        {getCategoryFilters().map((category) => (
+                                            <option key={category.value} value={category.value}>
+                                                {category.text}
+                                            </option>
+                                        ))}
+                                    </Field>
+                                    <ErrorMessage
+                                        name="category"
+                                        component="div"
+                                        className="text-danger"
+                                        style={{ color: 'red' }}
+                                    />
+                                </div>
+
+                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                    <label htmlFor="image">Image URL</label>
+                                    <Field name="image" className="ant-input" style={{ width: '100%' }} />
+                                    <ErrorMessage
+                                        name="image"
+                                        component="div"
+                                        className="text-danger"
+                                        style={{ color: 'red' }}
+                                    />
+                                </div>
+
+                                <div
+                                    className="form-group"
+                                    style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button onClick={handleCancel} style={{ marginRight: '10px' }}>
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        type="primary"
+                                        onClick={handleSubmit}
+                                        disabled={isSubmitting}
+                                        loading={isSubmitting}>
+                                        Update Product
+                                    </Button>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                )}
             </Modal>
 
             {/* Product Create Modal with Formik */}

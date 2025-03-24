@@ -7,16 +7,17 @@ const OrderSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
-        products: [
+        items: [
             {
                 productId: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Product',
+                    required: true,
                 },
-                name: String,
-                price: Number,
-                quantity: Number,
-                image: String,
+                name: { type: String, required: true },
+                price: { type: Number, required: true },
+                quantity: { type: Number, required: true, default: 1 },
+                image: { type: String },
             },
         ],
         totalAmount: {
@@ -24,29 +25,31 @@ const OrderSchema = new mongoose.Schema(
             required: true,
         },
         shippingAddress: {
-            fullName: String,
-            address: String,
-            city: String,
-            postalCode: String,
-            country: String,
-            phone: String,
+            fullName: { type: String, required: true },
+            address: { type: String, required: true },
+            city: { type: String, required: true },
+            phoneNumber: { type: String, required: true },
+            district: { type: String },
+            notes: { type: String },
         },
         paymentMethod: {
             type: String,
             required: true,
+            enum: ['COD', 'BANK_TRANSFER', 'CREDIT_CARD', 'MOMO'],
         },
         paymentStatus: {
             type: String,
+            enum: ['pending', 'paid', 'failed'],
             default: 'pending',
         },
         status: {
             type: String,
-            enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+            enum: ['pending', 'processing', 'shipping', 'delivered', 'cancelled'],
             default: 'pending',
         },
-        cancelReason: String,
-        cancelledAt: Date,
-        deliveredAt: Date,
+        cancelReason: { type: String },
+        cancelledAt: { type: Date },
+        deliveredAt: { type: Date },
     },
     { timestamps: true }
 );

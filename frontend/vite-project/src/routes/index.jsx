@@ -14,4 +14,7 @@ export const routes = {
     productDetail: '/product/:id',
     manageProduct: '/manage-product',
     restricted: '/restricted',
+    manageOrders: '/manage-orders',
+    checkout: '/checkout',
+    historyOrder: '/history-order',
 };

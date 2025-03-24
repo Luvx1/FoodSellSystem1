@@ -17,6 +17,9 @@ import ProductDetailPage from './pages/productDetail/ProductDetailPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import ManageProduct from './pages/dashboard/ManageProduct';
 import RestrictedPage from './pages/errorPage/RestrictedPage';
+import ManageOrders from './pages/dashboard/ManageOrders';
+import CheckoutPage from './pages/checkoutPage/checkoutPage';
+import OrderHistory from './pages/historyOrderPage/OrderHistory';
 
 function App() {
     const router = createBrowserRouter([
@@ -46,6 +49,30 @@ function App() {
                     element: (
                         <ProtectedRoute roles={['admin']}>
                             <ManageProduct />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: routes.manageOrders,
+                    element: (
+                        <ProtectedRoute roles={['admin']}>
+                            <ManageOrders />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: routes.checkout,
+                    element: (
+                        <ProtectedRoute roles={['customer']}>
+                            <CheckoutPage />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: routes.historyOrder,
+                    element: (
+                        <ProtectedRoute roles={['customer']}>
+                            <OrderHistory />
                         </ProtectedRoute>
                     ),
                 },

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
 import { routes } from '../../routes';
 import { decreaseQuantity, increaseQuantity, removeFromCart, selectCartItems } from '../../redux/feature/cartSlice';
@@ -230,35 +230,37 @@ const Cart = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button
-                                    className="cart-receipt-button"
-                                    onClick={() => navigate(routes.checkout)}
-                                    disabled={cartItems.length === 0}
-                                    style={{
-                                        marginTop: '20px',
-                                        borderRadius: '8px',
-                                        padding: '12px',
-                                        fontSize: '18px',
-                                        fontWeight: 600,
-                                        transition: 'all 0.3s',
-                                        boxShadow: '0 4px 8px rgba(216, 149, 154, 0.3)',
-                                        cursor: cartItems.length === 0 ? 'not-allowed' : 'pointer',
-                                        opacity: cartItems.length === 0 ? 0.6 : 1,
-                                    }}
-                                    onMouseOver={(e) => {
-                                        if (cartItems.length > 0) {
-                                            e.currentTarget.style.backgroundColor = '#c27e82';
-                                            e.currentTarget.style.transform = 'translateY(-2px)';
-                                            e.currentTarget.style.boxShadow = '0 6px 12px rgba(216, 149, 154, 0.4)';
-                                        }
-                                    }}
-                                    onMouseOut={(e) => {
-                                        e.currentTarget.style.backgroundColor = '#d8959a';
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = '0 4px 8px rgba(216, 149, 154, 0.3)';
-                                    }}>
-                                    Tiến hành đặt hàng
-                                </button>
+                                <Link to={routes.checkout}>
+                                    <button
+                                        className="cart-receipt-button"
+                                        onClick={() => navigate(routes.checkout)}
+                                        disabled={cartItems.length === 0}
+                                        style={{
+                                            marginTop: '20px',
+                                            borderRadius: '8px',
+                                            padding: '12px',
+                                            fontSize: '18px',
+                                            fontWeight: 600,
+                                            transition: 'all 0.3s',
+                                            boxShadow: '0 4px 8px rgba(216, 149, 154, 0.3)',
+                                            cursor: cartItems.length === 0 ? 'not-allowed' : 'pointer',
+                                            opacity: cartItems.length === 0 ? 0.6 : 1,
+                                        }}
+                                        onMouseOver={(e) => {
+                                            if (cartItems.length > 0) {
+                                                e.currentTarget.style.backgroundColor = '#c27e82';
+                                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                                e.currentTarget.style.boxShadow = '0 6px 12px rgba(216, 149, 154, 0.4)';
+                                            }
+                                        }}
+                                        onMouseOut={(e) => {
+                                            e.currentTarget.style.backgroundColor = '#d8959a';
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 4px 8px rgba(216, 149, 154, 0.3)';
+                                        }}>
+                                        Tiến hành đặt hàng
+                                    </button>
+                                </Link>
                             </div>
                         </Col>
                     </Row>

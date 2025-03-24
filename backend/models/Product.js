@@ -19,8 +19,12 @@ const ProductSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        images: {
+        // Change from String to Array of Strings
+        images: [{ type: String }], // Define as an array of strings
+        // If you had image field before
+        image: {
             type: String,
+            default: '',
         },
     },
     { timestamps: true }
