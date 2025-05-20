@@ -101,59 +101,33 @@ export default function ProductDetailPage() {
     };
 
     return (
-        <div>
+        <div className="product-detail-container">
             <div style={{ maxWidth: '1100px', margin: 'auto', padding: '20px 40px', fontFamily: 'Nunito, sans-serif' }}>
                 <div style={{ display: 'flex', gap: '50px' }}>
                     <div style={{ display: 'flex', gap: '20px' }}>
                         {/* Single image display since we don't have multiple images */}
-                        <div
-                            style={{
-                                width: '400px',
-                                height: '400px',
-                                minWidth: '400px',
-                                minHeight: '400px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: '1px solid #ddd',
-                                borderRadius: '15px',
-                                overflow: 'hidden',
-                            }}>
+                        <div className="product-detail-image-box">
                             <img
                                 src={product.image}
                                 alt="Product Main"
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    transition: 'opacity 0.3s ease-in-out',
-                                    display: 'block',
-                                }}
                             />
                         </div>
                     </div>
 
                     {/* Thông tin sản phẩm */}
-                    <div style={{ flex: 1 }}>
+                    <div className="product-detail-info" style={{ flex: 1 }}>
                         {/* Breadcrumb */}
                         <p style={{ fontSize: '14px', color: '#888', marginBottom: '10px' }}>
                             Sản phẩm &gt; {product.category || 'Danh mục'}
                         </p>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <h1
-                                style={{
-                                    fontSize: '30px',
-                                    fontWeight: 'bold',
-                                    marginBottom: '8px',
-                                    lineHeight: '1.4',
-                                    fontFamily: 'Nunito',
-                                }}>
+                            <h1 className="product-detail-title">
                                 {product.name}
                             </h1>
                             {/* Icon yêu thích */}
                             <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <HeartOutlined style={{ fontSize: '25px', color: '#333', cursor: 'pointer' }} />
-                                <span style={{ fontSize: '14px', color: '#666', textAlign: 'center' }}>
+                                <span className="product-detail-best-seller">
                                     Best seller
                                 </span>
                             </div>
@@ -178,7 +152,7 @@ export default function ProductDetailPage() {
                                 <span style={{ color: '#888', fontSize: '14px', marginRight: '4px' }}>
                                     Giá niêm yết:
                                 </span>
-                                <span style={{ color: '#D8959A', fontWeight: 'bold', fontSize: '26px' }}>
+                                <span className="product-detail-price">
                                     {product.price ? `${product.price.toLocaleString()} đ` : 'Liên hệ'}
                                 </span>
                             </div>
@@ -186,59 +160,31 @@ export default function ProductDetailPage() {
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                             {/* Nút chọn số lượng */}
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '8px',
-                                    width: '120px',
-                                    height: '45px',
-                                    justifyContent: 'space-between',
-                                }}>
+                            <div className="product-detail-quantity-box">
                                 <button
-                                    onClick={() => {
-                                        setQuantity((prev) => Math.max(1, prev - 1));
-                                    }}
-                                    style={quantityButtonStyle}>
-                                    −
+                                    className="product-detail-quantity-btn"
+                                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                >
+                                    -
                                 </button>
-                                <span style={{ fontSize: '16px', fontWeight: 'bold' }}>{quantity}</span>
+                                <span style={{ fontWeight: 'bold', fontSize: '18px' }}>{quantity}</span>
                                 <button
-                                    onClick={() => {
-                                        setQuantity((prev) => Math.min(product.stocks || 10, prev + 1));
-                                    }}
-                                    style={quantityButtonStyle}>
+                                    className="product-detail-quantity-btn"
+                                    onClick={() => setQuantity((q) => q + 1)}
+                                >
                                     +
                                 </button>
                             </div>
-
                             <Button
-                                type="default"
-                                style={{
-                                    backgroundColor: 'white',
-                                    borderColor: '#D8959A',
-                                    color: '#D8959A',
-                                    width: '40%',
-                                    height: '45px',
-                                    fontSize: '16px',
-                                    cursor: 'pointer',
-                                }}
-                                onClick={handleAddToCart}>
+                                className="product-detail-add-btn"
+                                onClick={handleAddToCart}
+                            >
                                 Thêm vào giỏ
                             </Button>
-
                             <Button
-                                type="primary"
-                                style={{
-                                    backgroundColor: '#D8959A',
-                                    borderColor: '#D8959A',
-                                    width: '40%',
-                                    height: '45px',
-                                    fontSize: '16px',
-                                    cursor: 'pointer',
-                                }}
-                                onClick={handleBuyNow}>
+                                className="product-detail-buy-btn"
+                                onClick={handleBuyNow}
+                            >
                                 Mua ngay
                             </Button>
                         </div>

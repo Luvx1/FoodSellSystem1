@@ -10,6 +10,7 @@ import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { selectCartItems } from '../../redux/feature/cartSlice';
 import { routes } from '../../routes';
+import { useLanguage } from '../../LanguageContext';
 
 export default function MainHeader() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function MainHeader() {
     const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
     const [user, setUser] = useState(null);
     const prevUserCookieRef = useRef(null);
+    const { lang, setLang } = useLanguage();
 
     // Add logout handler function
     const handleLogout = async () => {
@@ -111,9 +113,13 @@ export default function MainHeader() {
                     />
                 </div>
 
-                {/* Ô tìm kiếm + Giỏ hàng + Tài khoản */}
+                {/* Ô chuyển đổi ngôn ngữ + Giỏ hàng + Tài khoản */}
                 <div className="right-icons">
-                    <Input.Search placeholder="Search..." allowClear enterButton={<SearchOutlined />} />
+                    <div className="lang-switch">
+                        <button className={`lang-btn${lang === 'vn' ? ' active' : ''}`} onClick={() => setLang('vn')} style={{ marginRight: 4 }}>VN</button>
+                        <span style={{ margin: '0 4px', color: '#888' }}>|</span>
+                        <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+                    </div>
 
                     {/* Hiển thị số lượng giỏ hàng */}
                     <Link to="/cart">

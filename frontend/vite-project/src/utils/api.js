@@ -13,36 +13,28 @@ api.defaults.baseURL = baseUrl;
 
 const handleBefore = async (config) => {
     let accessToken = Cookies.get('accessToken')?.replaceAll('"', '');
-
-    if (accessToken) {
+    // Chỉ decode token nếu đúng định dạng JWT (có 3 phần)
+    if (accessToken && accessToken.split('.').length === 3) {
         const tokenExpiry = jwtDecode(accessToken).exp * 1000;
         if (Date.now() >= tokenExpiry) {
             try {
                 const refreshToken = Cookies.get('refreshToken')?.replaceAll('"', '');
-                console.log(refreshToken);
-
                 const response = await axios.post(`${baseUrl}auth/refresh-token`, {
                     refreshToken,
                 });
-                // console.log(response);
                 Cookies.set('accessToken', response.data.data?.accessToken, {
                     expires: 1,
                     secure: true,
-                }); // Expires in 7 days
+                });
                 Cookies.set('refreshToken', response.data.data?.refreshToken, {
                     expires: 7,
                     secure: true,
                 });
             } catch (error) {
                 console.error('Failed to refresh token:', error);
-
-                // Implement logout functionality
                 Cookies.remove('accessToken');
                 Cookies.remove('refreshToken');
-
-                // Dispatch logout event or redirect to login page
-                window.location.href = '/login'; // Adjust the path according to your app's routing
-
+                window.location.href = '/login';
                 return Promise.reject(error);
             }
         }

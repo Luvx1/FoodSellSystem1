@@ -6,6 +6,8 @@ import { Button, Input, Slider, Select, Card, Row, Col, Typography, Empty, Space
 import { SearchOutlined, FilterOutlined, DollarOutlined, MenuOutlined } from '@ant-design/icons';
 import api from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/feature/cartSlice';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -15,6 +17,7 @@ export default function ProductPage() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     // Filter states
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -112,10 +115,15 @@ export default function ProductPage() {
         handleFetchProducts();
     }, []);
 
-    // Handle add to cart (implement this function as needed)
+    // Handle add to cart
     const handleAddToCart = (product) => {
-        // Your cart logic here
-        console.log('Adding to cart:', product);
+        dispatch(addToCart({
+            productId: product._id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1,
+        }));
     };
 
     return (
@@ -123,6 +131,9 @@ export default function ProductPage() {
             {/* Search and Filter Row */}
             <Row gutter={[16, 24]} className="filter-section">
                 <Col xs={24} md={8} lg={8}>
+                    <div className="filter-label">
+                        <SearchOutlined /> <span>Search</span>
+                    </div>
                     <Input
                         placeholder="Search by name or description..."
                         prefix={<SearchOutlined />}

@@ -1,12 +1,11 @@
 .main-layout {
-    min-height: 100vh; /* Đảm bảo layout chiếm toàn bộ chiều cao màn hình */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f5e7d6;
 }
 
 .main-content {
-    flex: 1; /* Giúp phần content mở rộng để đẩy footer xuống */
+    flex: 1;
     padding: 20px;
     background-color: #fdf3e6;
 }
@@ -16,4 +15,55 @@
     color: white;
     text-align: center;
     padding: 10px 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 0 20px;
+    }
+
+    .content-container {
+        padding: 16px;
+    }
+
+    .main-footer {
+        padding: 16px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0 10px;
+    }
+
+    .content-container {
+        padding: 12px;
+    }
+
+    .main-footer {
+        padding: 12px 10px;
+    }
+}
+
+/* Hover Effects */
+.content-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
 }

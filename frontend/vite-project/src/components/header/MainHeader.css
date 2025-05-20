@@ -177,3 +177,27 @@
 .category-item button:hover {
     background-color: #f1f1f1;
 }
+
+.lang-switch {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+
+.lang-btn {
+    background: #fff;
+    border: 1px solid #e8bb9a;
+    color: #ff9800;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 4px 14px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    font-size: 15px;
+}
+
+.lang-btn:hover, .lang-btn.active {
+    background: #ff9800;
+    color: #fff;
+    border: 1px solid #ff9800;
+}

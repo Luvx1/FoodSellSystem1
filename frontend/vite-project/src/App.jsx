@@ -9,6 +9,7 @@ import ProductPage from './pages/product/ProductPage';
 import Promotions from './pages/promotions/Promotions';
 import PromotionDetail from './pages/promotions/PromotionDetail';
 import AboutUs from './pages/about-us/AboutUs';
+import Contact from './pages/contact/Contact';
 import Cart from './pages/cart/Cart';
 import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOrder
 import UserProfile from './pages/user-profile/UserProfile';
@@ -20,6 +21,7 @@ import RestrictedPage from './pages/errorPage/RestrictedPage';
 import ManageOrders from './pages/dashboard/ManageOrders';
 import CheckoutPage from './pages/checkoutPage/checkoutPage';
 import OrderHistory from './pages/historyOrderPage/OrderHistory';
+import { LanguageProvider } from './LanguageContext';
 
 function App() {
     const router = createBrowserRouter([
@@ -40,6 +42,7 @@ function App() {
                 { path: routes.promotions, element: <Promotions /> },
                 { path: '/promotion/:id', element: <PromotionDetail /> },
                 { path: routes.aboutUs, element: <AboutUs /> },
+                { path: routes.contact, element: <Contact /> },
                 { path: routes.cart, element: <Cart /> },
                 { path: routes.placeOrder, element: <PlaceOrder /> },
                 { path: routes.profile, element: <UserProfile /> },
@@ -85,10 +88,10 @@ function App() {
     ]);
 
     return (
-        <>
+        <LanguageProvider>
             <ToastContainer position="top-right" reverseOrder={false} />
             <RouterProvider router={router} />
-        </>
+        </LanguageProvider>
     );
 }
 

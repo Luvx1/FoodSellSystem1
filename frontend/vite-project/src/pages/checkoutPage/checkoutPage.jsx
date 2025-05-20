@@ -35,6 +35,21 @@ export default function CheckoutPage() {
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
+            // Nếu chọn PayOS thì gọi API PayOS
+            if (values.paymentMethod === 'PAYOS') {
+                const payosRes = await api.post('payment/payos/create_payment', {
+                    amount: calculateTotal(),
+                    description: 'Thanh toán đơn hàng FoodSellSystem'
+                });
+                if (payosRes.data && payosRes.data.checkoutUrl) {
+                    window.location.href = payosRes.data.checkoutUrl;
+                    return;
+                } else {
+                    message.error('Không tạo được link thanh toán PayOS!');
+                    setLoading(false);
+                    return;
+                }
+            }
             // Create order payload
             const orderData = {
                 items: cartItems.map((item) => ({
@@ -279,11 +294,11 @@ export default function CheckoutPage() {
                                                 <Radio value="COD">
                                                     <Space>Cash On Delivery (COD)</Space>
                                                 </Radio>
-                                                <Radio value="BANK_TRANSFER">
+                                                {/* <Radio value="BANK_TRANSFER">
                                                     <Space>Bank Transfer</Space>
-                                                </Radio>
-                                                <Radio value="CREDIT_CARD">
-                                                    <Space>Credit Card</Space>
+                                                </Radio> */}
+                                                <Radio value="PAYOS">
+                                                    <Space>Pay with PayOS (ATM, QR, e-wallet)</Space>
                                                 </Radio>
                                             </Space>
                                         </Radio.Group>

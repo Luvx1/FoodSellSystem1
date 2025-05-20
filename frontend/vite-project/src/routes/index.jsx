@@ -9,6 +9,7 @@ export const routes = {
     promotions: '/promotions',
     promotionDetail: '/promotions/:id',
     aboutUs: '/about-us',
+    contact: '/contact',
     cart: '/cart',
     placeOrder: '/place-order',
     productDetail: '/product/:id',

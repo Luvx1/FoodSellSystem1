@@ -34,6 +34,8 @@ app.use('/products', require('./routes/product'));
 
 app.use('/orders', require('./routes/order'));
 
+app.use('/payment/payos', require('./payos'));
+
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
