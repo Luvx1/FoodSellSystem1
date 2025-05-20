@@ -3,13 +3,12 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
 // Get base URL from environment variables
-const baseUrl = import.meta.env.VITE_BACK_END_BASE_URL;
+const baseURL = import.meta.env.VITE_BACK_END_BASE_URL;
 const config = {
-    baseUrl,
+    baseURL,
     timeout: 30000,
 };
 const api = axios.create(config);
-api.defaults.baseURL = baseUrl;
 
 const handleBefore = async (config) => {
     let accessToken = Cookies.get('accessToken')?.replaceAll('"', '');
@@ -19,7 +18,7 @@ const handleBefore = async (config) => {
         if (Date.now() >= tokenExpiry) {
             try {
                 const refreshToken = Cookies.get('refreshToken')?.replaceAll('"', '');
-                const response = await axios.post(`${baseUrl}auth/refresh-token`, {
+                const response = await axios.post(`${baseURL}auth/refresh-token`, {
                     refreshToken,
                 });
                 Cookies.set('accessToken', response.data.data?.accessToken, {

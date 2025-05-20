@@ -23,9 +23,20 @@ export default function MainHeader() {
     // Add logout handler function
     const handleLogout = async () => {
         try {
-            const response = await api.post('/auth/logout', {
-                refreshToken: Cookies.get('refreshToken'),
-            });
+            const accessToken = Cookies.get('accessToken');
+            if (!accessToken) {
+                // Nếu không còn token, xóa hết cookie và chuyển hướng luôn
+                Cookies.remove('accessToken');
+                Cookies.remove('refreshToken');
+                Cookies.remove('user');
+                navigate('/login');
+                return;
+            }
+            const response = await api.post(
+                '/auth/logout',
+                { refreshToken: Cookies.get('refreshToken') },
+                { headers: { Authorization: `Bearer ${accessToken}` } }
+            );
             Cookies.remove('accessToken');
             Cookies.remove('refreshToken');
             Cookies.remove('user');
@@ -33,7 +44,11 @@ export default function MainHeader() {
             setUser(null);
             navigate('/');
         } catch (error) {
-            console.error('Failed to log out', error);
+            // Nếu lỗi 401, vẫn xóa cookie và chuyển hướng
+            Cookies.remove('accessToken');
+            Cookies.remove('refreshToken');
+            Cookies.remove('user');
+            navigate('/login');
         }
     };
 

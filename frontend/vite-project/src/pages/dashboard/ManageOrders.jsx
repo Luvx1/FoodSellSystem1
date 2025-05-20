@@ -239,7 +239,7 @@ export default function ManageOrders() {
             dataIndex: 'customerName',
             key: 'customerName',
             ...getColumnSearchProps('customerName'),
-            render: (_, record) => <span>{record.userId.name}</span>,
+            render: (_, record) => <span>{record.userId?.name || 'N/A'}</span>,
         },
         {
             title: 'Total Amount',
@@ -379,7 +379,7 @@ export default function ManageOrders() {
                         <Descriptions bordered column={1}>
                             <Descriptions.Item label="Order ID">{selectedOrder._id}</Descriptions.Item>
                             <Descriptions.Item label="Customer">
-                                {selectedOrder.userId.name} ({selectedOrder.userId.email})
+                                {selectedOrder.userId?.name || 'N/A'} ({selectedOrder.userId?.email || 'N/A'})
                             </Descriptions.Item>
                             <Descriptions.Item label="Order Date">
                                 {formatDate(selectedOrder.createdAt)}

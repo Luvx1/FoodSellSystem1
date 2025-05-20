@@ -22,6 +22,7 @@ import ManageOrders from './pages/dashboard/ManageOrders';
 import CheckoutPage from './pages/checkoutPage/checkoutPage';
 import OrderHistory from './pages/historyOrderPage/OrderHistory';
 import { LanguageProvider } from './LanguageContext';
+import axios from 'axios';
 
 function App() {
     const router = createBrowserRouter([

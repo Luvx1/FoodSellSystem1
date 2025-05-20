@@ -12,6 +12,7 @@ const authMiddleware = (req, res, next) => {
     const authHeader = req.header('Authorization');
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        console.log('[AUTH] Không có Authorization header hoặc header không đúng định dạng:', authHeader);
         return res.status(401).json({ message: 'Không có token, quyền truy cập bị từ chối' });
     }
 
@@ -23,6 +24,7 @@ const authMiddleware = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (err) {
+        console.log('[AUTH] Token không hợp lệ:', err.message);
         res.status(401).json({ message: 'Token không hợp lệ' });
     }
 };

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { Card, Row, Col, Typography, Divider, Button, Radio, Space, Steps, message, Input } from 'antd';
 import api from '../../utils/api';
 import { routes } from '../../routes';
+import Cookies from 'js-cookie';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
@@ -17,6 +18,14 @@ export default function CheckoutPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const orderSuccessful = useRef(false);
+
+    useEffect(() => {
+        const accessToken = Cookies.get('accessToken');
+        if (!accessToken) {
+            message.error('Bạn cần đăng nhập để thanh toán!');
+            navigate('/login');
+        }
+    }, [navigate]);
 
     useEffect(() => {
         // Only redirect if cart is empty AND we haven't just completed an order
