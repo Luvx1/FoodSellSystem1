@@ -59,4 +59,5 @@ FoodSellSystem aims to provide a **robust**, **scalable**, and **visually appeal
 
 ## 📂 Project Structure (Optional)
 
-You can also add a section like this if you'd like to show the folder layout:
+![image](https://github.com/user-attachments/assets/2015ef8d-c098-4e44-8343-83008d2cce8a)
+
