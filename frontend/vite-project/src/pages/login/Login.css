@@ -65,3 +65,10 @@
 .register-link a {
     color: #1890ff;
 }
+
+.login-form .ant-input:focus, .login-form .ant-input-focused,
+.login-form .ant-input-password:focus, .login-form .ant-input-password-focused {
+    box-shadow: none !important;
+    border-color: #ccc !important;
+    outline: none !important;
+}

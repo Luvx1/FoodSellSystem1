@@ -1,6 +1,6 @@
 import { Menu, Input, Badge, Avatar, Dropdown } from 'antd';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { UserOutlined, ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
+import { UserOutlined, ShoppingCartOutlined, SearchOutlined, MenuOutlined } from '@ant-design/icons';
 import { useState, useEffect, useRef } from 'react';
 import './MainHeader.css';
 import logo from '/src/assets/image/Logo.png';
@@ -18,6 +18,7 @@ export default function MainHeader() {
     const cartItems = useSelector(selectCartItems);
     const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
     const [user, setUser] = useState(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const prevUserCookieRef = useRef(null);
     const { lang, setLang } = useLanguage();
 
@@ -106,7 +107,6 @@ export default function MainHeader() {
 
     return (
         <>
-            {/* Header chính */}
             <div className="main-header">
                 {/* Logo */}
                 <div className="logo">
@@ -115,23 +115,44 @@ export default function MainHeader() {
                     </Link>
                 </div>
 
+                {/* Mobile menu button */}
+                <div className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                    <MenuOutlined />
+                </div>
+
                 {/* Menu chính */}
-                <nav className="custom-menu-container">
-                    <Link to="/" className={location.pathname === '/' ? 'menu-link active' : 'menu-link'}>
+                <nav className={`custom-menu-container ${mobileMenuOpen ? 'show' : ''}`}>
+                    <Link 
+                        to="/" 
+                        className={location.pathname === '/' ? 'menu-link active' : 'menu-link'}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
                         {lang === 'vn' ? 'Trang chủ' : 'Home'}
                     </Link>
-                    <Link to="/product" className={location.pathname.startsWith('/product') ? 'menu-link active' : 'menu-link'}>
+                    <Link 
+                        to="/product" 
+                        className={location.pathname.startsWith('/product') ? 'menu-link active' : 'menu-link'}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
                         {lang === 'vn' ? 'Thực đơn' : 'Menu'}
                     </Link>
-                    <Link to="/promotions" className={location.pathname.startsWith('/promotions') ? 'menu-link active' : 'menu-link'}>
+                    <Link 
+                        to="/promotions" 
+                        className={location.pathname.startsWith('/promotions') ? 'menu-link active' : 'menu-link'}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
                         {lang === 'vn' ? 'Khuyến mãi' : 'Promotions'}
                     </Link>
-                    <Link to="/about-us" className={location.pathname.startsWith('/about-us') ? 'menu-link active' : 'menu-link'}>
+                    <Link 
+                        to="/about-us" 
+                        className={location.pathname.startsWith('/about-us') ? 'menu-link active' : 'menu-link'}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
                         {lang === 'vn' ? 'Về chúng tôi' : 'About Us'}
                     </Link>
                 </nav>
 
-                {/* Ô chuyển đổi ngôn ngữ + Giỏ hàng + Tài khoản */}
+                {/* Right icons */}
                 <div className="right-icons">
                     <div className="lang-switch">
                         <button className={`lang-btn${lang === 'vn' ? ' active' : ''}`} onClick={() => setLang('vn')} style={{ marginRight: 4 }}>VN</button>
@@ -139,7 +160,6 @@ export default function MainHeader() {
                         <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
                     </div>
 
-                    {/* Hiển thị số lượng giỏ hàng */}
                     <Link to="/cart">
                         <Badge count={totalCartItems} showZero>
                             <ShoppingCartOutlined className="icon" />

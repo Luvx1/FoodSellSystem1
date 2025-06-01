@@ -1,0 +1,223 @@
+.cart-page {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fdf3e6;
+}
+
+.cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: 24px;
+}
+
+.cart-empty .ant-btn {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 8px 28px;
+    transition: background 0.2s;
+}
+.cart-empty .ant-btn:hover {
+    background: #4a2e1b;
+    color: #fff;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cart-item {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #ffe0b2;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.08);
+}
+
+.cart-item-image {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cart-item-info h4 {
+    color: #4a2e1b;
+    font-weight: 700;
+}
+
+.cart-item-info .ant-typography {
+    color: #666;
+}
+
+.cart-item-quantity {
+    width: 100%;
+}
+
+.cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.cart-item-actions .ant-btn {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: background 0.2s;
+}
+.cart-item-actions .ant-btn:hover {
+    background: #4a2e1b;
+    color: #fff;
+}
+
+.cart-summary {
+    position: sticky;
+    top: 24px;
+    background: #fff3e0;
+    border: 1.5px solid #ffe0b2;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.08);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #666;
+}
+
+.summary-item.total {
+    border-bottom: none;
+    margin-bottom: 24px;
+    padding-bottom: 0;
+    font-size: 20px;
+    color: #4a2e1b;
+    font-weight: bold;
+}
+
+.cart-summary .ant-btn {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 10px 0;
+    margin-top: 12px;
+    transition: background 0.2s;
+}
+.cart-summary .ant-btn:hover {
+    background: #4a2e1b;
+    color: #fff;
+}
+
+.cart-btn {
+    background: #ff9800 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 20px !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    padding: 8px 28px !important;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 1px 4px rgba(255,152,0,0.08);
+}
+.cart-btn:hover {
+    background: #4a2e1b !important;
+    color: #fff !important;
+}
+.cart-btn-delete {
+    background: #fff !important;
+    color: #ff4d4f !important;
+    border: 1.5px solid #ff4d4f !important;
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin-left: 8px;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.cart-btn-delete:hover {
+    background: #ff4d4f !important;
+    color: #fff !important;
+    border-color: #ff4d4f !important;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
+    .cart-page {
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cart-page {
+        padding: 16px;
+    }
+
+    .cart-item-image {
+        height: 100px;
+    }
+
+    .cart-item-info h4 {
+        font-size: 16px;
+    }
+
+    .cart-item-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cart-page {
+        padding: 12px;
+    }
+
+    .cart-item-image {
+        height: 80px;
+    }
+
+    .cart-item-info h4 {
+        font-size: 14px;
+    }
+
+    .summary-item {
+        font-size: 14px;
+    }
+
+    .summary-item.total {
+        font-size: 16px;
+    }
+} 

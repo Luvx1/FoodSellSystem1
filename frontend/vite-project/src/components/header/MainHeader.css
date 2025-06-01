@@ -1,19 +1,45 @@
 /* ========== HEADER CHÍNH ========== */
 .main-header {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 40px;  /* Tăng padding để dễ căn chỉnh */
-    background-color: #FF9800;
+    padding: 0 48px;
+    height: 140px;
+    background: #ff9800;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    min-width: 0;
+    z-index: 1000;
+    transition: box-shadow 0.2s;
+}
+
+/* Optional: shadow when scroll */
+.main-header.scrolled {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
 /* ========== LOGO ========== */
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
 .logo img {
-    width: 140px;
-    max-width: 150px;
+    height: 100px;
+    width: auto;
     display: block;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 /* ========== MENU CHÍNH ========== */
@@ -64,7 +90,8 @@
 .right-icons {
     display: flex;
     align-items: center;
-    gap: 20px;  /* Tăng khoảng cách */
+    gap: 24px;
+    height: 100%;
 }
 
 /* Ô tìm kiếm */
@@ -86,13 +113,9 @@
 
 /* Icon giỏ hàng & tài khoản */
 .right-icons .icon {
-    font-size: 22px;
-    color: white;
-    transition: transform 0.2s ease-in-out;
-}
-
-.right-icons .icon:hover {
-    transform: scale(1.1);
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
 }
 
 /* ========== MENU DANH MỤC (CategoryMenu) ========== */
@@ -185,67 +208,139 @@
 .lang-switch {
     display: flex;
     align-items: center;
-    margin-right: 16px;
+    gap: 4px;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 .lang-btn {
-    background: #fff;
-    border: 1px solid #e8bb9a;
-    color: #ff9800;
-    font-weight: bold;
-    border-radius: 6px;
-    padding: 4px 14px;
+    background: none;
+    border: none;
+    color: #222;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    margin: 0 2px;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, border 0.2s;
-    font-size: 15px;
+    transition: color 0.2s;
+    outline: none;
+    box-shadow: none;
 }
 
-.lang-btn:hover, .lang-btn.active {
-    background: #ff9800;
-    color: #fff;
-    border: 1px solid #ff9800;
+.lang-btn.active,
+.lang-btn:hover {
+    color: #d32f2f;
 }
 
 /* ========== MENU CUSTOM (KHÔNG DÙNG ANT DESIGN) ========== */
 .custom-menu-container {
     display: flex;
-    gap: 32px;
-    justify-content: center;
+    gap: 40px;
     align-items: center;
-    flex-grow: 1;
+    height: 100%;
 }
+
 .menu-link {
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    transition: background 0.2s, color 0.2s;
-}
-.menu-link:hover {
-    background: rgba(255,255,255,0.18);
     color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'Montserrat', 'Poppins', 'Arial Black', Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
+
+.menu-link:hover,
 .menu-link.active {
-    background: #fff;
-    color: #FF9800;
+    color: #4a2e1b;
 }
-@media (max-width: 900px) {
+
+/* Mobile menu button */
+.mobile-menu-btn {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
+    .main-header {
+        padding: 0 20px;
+    }
     .custom-menu-container {
+        gap: 20px;
+    }
+    .right-icons {
         gap: 16px;
     }
-    .menu-link {
-        font-size: 16px;
-        padding: 10px 12px;
-    }
 }
-@media (max-width: 600px) {
+
+@media screen and (max-width: 768px) {
+    .main-header {
+        height: 64px;
+        padding: 0 8px;
+    }
+    .logo img {
+        height: 40px;
+    }
     .custom-menu-container {
+        gap: 12px;
+    }
+    .right-icons {
         gap: 8px;
     }
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .custom-menu-container {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-menu-container.show {
+        display: flex;
+    }
+
     .menu-link {
-        font-size: 15px;
-        padding: 8px 6px;
+        padding: 12px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .lang-switch {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-header {
+        padding: 0 12px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .icon {
+        font-size: 20px;
+    }
+
+    .right-icons {
+        gap: 8px;
     }
 }

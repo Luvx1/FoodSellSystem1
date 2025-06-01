@@ -3,134 +3,209 @@
 }
 
 .product-detail-container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px 40px;
-    font-family: 'Nunito', sans-serif;
+    padding: 24px;
+    background-color: #fff;
 }
 
 .product-detail-image-box {
     width: 400px;
     height: 400px;
-    min-width: 400px;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #FF9800;
-    border-radius: 18px;
+    border-radius: 12px;
     overflow: hidden;
-    background: #fffbe6;
-    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.10);
+    border: 1px solid #ffe0b2;
 }
 
 .product-detail-image-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.3s ease-in-out;
-    display: block;
 }
 
 .product-detail-info {
-    background: #faf1e6;
-    border-radius: 18px;
-    padding: 32px 32px 24px 32px;
-    box-shadow: 0 4px 24px rgba(255, 152, 0, 0.07);
+    flex: 1;
+    padding: 0 20px;
 }
 
 .product-detail-title {
-    color: #FF9800;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 8px;
-    font-family: 'Nunito', sans-serif;
+    color: #4a2e1b;
+    margin-bottom: 16px;
+}
+
+.product-detail-best-seller {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
 }
 
 .product-detail-price {
-    color: #FF9800;
+    font-size: 24px;
     font-weight: bold;
-    font-size: 26px;
+    color: #ff4d4f;
 }
 
 .product-detail-quantity-box {
     display: flex;
     align-items: center;
-    border: 1.5px solid #FF9800;
+    gap: 12px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    width: 120px;
-    height: 45px;
-    justify-content: space-between;
-    background: #fff;
+    padding: 4px 12px;
 }
 
 .product-detail-quantity-btn {
-    background: #FF9800;
-    color: #fff;
+    background: none;
     border: none;
     font-size: 20px;
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s;
+    color: #666;
+    padding: 0 8px;
 }
+
 .product-detail-quantity-btn:hover {
-    background: #ffa726;
+    color: #ff4d4f;
+}
+
+.product-detail-add-btn,
+.product-detail-buy-btn {
+    height: 40px;
+    font-size: 16px;
+    border-radius: 8px;
 }
 
 .product-detail-add-btn {
-    background: #FF9800;
+    background: linear-gradient(90deg, #ff9800 60%, #ffb74d 100%);
     color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 17px;
-    font-weight: bold;
-    padding: 10px 32px;
-    margin-left: 10px;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.08);
-}
-.product-detail-add-btn:hover {
-    background: #ffa726;
-    color: #fff;
+    border-radius: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.15);
+    padding: 0 32px;
+    height: 48px;
+    margin-right: 8px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
 }
 
 .product-detail-buy-btn {
-    background: #fff;
-    color: #FF9800;
-    border: 2px solid #FF9800;
-    border-radius: 8px;
-    font-size: 17px;
-    font-weight: bold;
-    padding: 10px 32px;
-    margin-left: 10px;
-    transition: background 0.2s, color 0.2s;
-}
-.product-detail-buy-btn:hover {
-    background: #FF9800;
+    background: linear-gradient(90deg, #ff4d4f 60%, #ff7a7b 100%);
     color: #fff;
-}
-
-.product-detail-best-seller {
-    color: #FF9800;
-    font-weight: bold;
-    font-size: 15px;
+    border: none;
+    border-radius: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 77, 79, 0.15);
+    padding: 0 32px;
+    height: 48px;
     margin-left: 8px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+.product-detail-add-btn:hover {
+    background: linear-gradient(90deg, #4a2e1b 60%, #ff9800 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 16px rgba(74, 46, 27, 0.18);
+}
+
+.product-detail-buy-btn:hover {
+    background: linear-gradient(90deg, #ff9800 60%, #ff4d4f 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.18);
+}
+
+.product-detail-info p, .product-detail-info span, .product-detail-info div {
+    color: #666;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
     .product-detail-container {
-        padding: 10px 5px;
+        padding: 20px;
     }
+
     .product-detail-image-box {
-        width: 100vw;
-        min-width: unset;
-        height: 250px;
-        min-height: 250px;
+        width: 350px;
+        height: 350px;
     }
+
+    .product-detail-title {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .product-detail-container {
+        padding: 16px;
+    }
+
+    .product-detail-image-box {
+        width: 100%;
+        height: 300px;
+    }
+
     .product-detail-info {
-        padding: 16px 8px;
+        padding: 20px 0;
+    }
+
+    .product-detail-title {
+        font-size: 22px;
+    }
+
+    .product-detail-price {
+        font-size: 20px;
+    }
+
+    .product-detail-quantity-box {
+        gap: 8px;
+        padding: 2px 8px;
+    }
+
+    .product-detail-quantity-btn {
+        font-size: 18px;
+    }
+
+    .product-detail-add-btn,
+    .product-detail-buy-btn {
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product-detail-container {
+        padding: 12px;
+    }
+
+    .product-detail-image-box {
+        height: 250px;
+    }
+
+    .product-detail-title {
+        font-size: 20px;
+    }
+
+    .product-detail-price {
+        font-size: 18px;
+    }
+
+    .product-detail-quantity-box {
+        gap: 6px;
+        padding: 2px 6px;
+    }
+
+    .product-detail-quantity-btn {
+        font-size: 16px;
+    }
+
+    .product-detail-add-btn,
+    .product-detail-buy-btn {
+        height: 32px;
+        font-size: 13px;
     }
 }

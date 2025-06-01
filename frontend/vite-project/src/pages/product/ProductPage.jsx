@@ -8,6 +8,8 @@ import api from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/feature/cartSlice';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -117,6 +119,11 @@ export default function ProductPage() {
 
     // Handle add to cart
     const handleAddToCart = (product) => {
+        const userAuth = Cookies.get('user');
+        if (!userAuth) {
+            toast.error('Vui lòng đăng nhập tài khoản để mua sản phẩm');
+            return;
+        }
         dispatch(addToCart({
             productId: product._id,
             name: product.name,
