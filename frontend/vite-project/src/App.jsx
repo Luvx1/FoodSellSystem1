@@ -11,7 +11,7 @@ import PromotionDetail from './pages/promotions/PromotionDetail';
 import AboutUs from './pages/about-us/AboutUs';
 import Contact from './pages/contact/Contact';
 import Cart from './pages/cart/Cart';
-import PlaceOrder from './pages/place-order/PlaceOrder'; // Import trang PlaceOrder
+import PlaceOrder from './pages/place-order/PlaceOrder';
 import UserProfile from './pages/user-profile/UserProfile';
 import { ToastContainer } from 'react-toastify';
 import ProductDetailPage from './pages/productDetail/ProductDetailPage';

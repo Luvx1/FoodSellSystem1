@@ -1,5 +1,5 @@
 import { Menu, Input, Badge, Avatar, Dropdown } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserOutlined, ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
 import { useState, useEffect, useRef } from 'react';
 import './MainHeader.css';
@@ -14,6 +14,7 @@ import { useLanguage } from '../../LanguageContext';
 
 export default function MainHeader() {
     const navigate = useNavigate();
+    const location = useLocation();
     const cartItems = useSelector(selectCartItems);
     const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
     const [user, setUser] = useState(null);
@@ -115,18 +116,20 @@ export default function MainHeader() {
                 </div>
 
                 {/* Menu chính */}
-                <div className="menu-container">
-                    <Menu
-                        mode="horizontal"
-                        defaultSelectedKeys={['1']}
-                        items={[
-                            { key: '1', label: <Link to="/">Home</Link> },
-                            { key: '2', label: <Link to="/product">Menu</Link> },
-                            { key: '3', label: <Link to="/promotions">Promotions</Link> },
-                            { key: '4', label: <Link to="/about-us">About Us</Link> },
-                        ]}
-                    />
-                </div>
+                <nav className="custom-menu-container">
+                    <Link to="/" className={location.pathname === '/' ? 'menu-link active' : 'menu-link'}>
+                        {lang === 'vn' ? 'Trang chủ' : 'Home'}
+                    </Link>
+                    <Link to="/product" className={location.pathname.startsWith('/product') ? 'menu-link active' : 'menu-link'}>
+                        {lang === 'vn' ? 'Thực đơn' : 'Menu'}
+                    </Link>
+                    <Link to="/promotions" className={location.pathname.startsWith('/promotions') ? 'menu-link active' : 'menu-link'}>
+                        {lang === 'vn' ? 'Khuyến mãi' : 'Promotions'}
+                    </Link>
+                    <Link to="/about-us" className={location.pathname.startsWith('/about-us') ? 'menu-link active' : 'menu-link'}>
+                        {lang === 'vn' ? 'Về chúng tôi' : 'About Us'}
+                    </Link>
+                </nav>
 
                 {/* Ô chuyển đổi ngôn ngữ + Giỏ hàng + Tài khoản */}
                 <div className="right-icons">
