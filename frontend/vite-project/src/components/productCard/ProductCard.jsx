@@ -2,11 +2,18 @@ import React from 'react';
 import { Card, Button, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductCard.css';
+import { useLanguage } from '../../LanguageContext';
 
 const { Meta } = Card;
 const { Text } = Typography;
 
 const ProductCard = ({ product, onAddToCart, onClick }) => {
+    const { lang } = useLanguage();
+    const cardText = {
+        en: { addToCart: 'Add to Cart' },
+        vn: { addToCart: 'Thêm vào giỏ' },
+    };
+
     // Format price to Vietnamese currency
     const formatPrice = (price) => {
         return new Intl.NumberFormat('vi-VN', {
@@ -50,7 +57,7 @@ const ProductCard = ({ product, onAddToCart, onClick }) => {
                     icon={<ShoppingCartOutlined />}
                     onClick={handleAddToCart}
                     className="add-to-cart-btn">
-                    Add to Cart
+                    {cardText[lang].addToCart}
                 </Button>
             </div>
         </Card>

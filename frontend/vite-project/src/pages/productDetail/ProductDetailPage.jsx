@@ -8,21 +8,67 @@ import { addToCart, increaseQuantity, selectCartItems } from '../../redux/featur
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import api from '../../utils/api';
+import { useLanguage } from '../../LanguageContext';
 const { Panel } = Collapse;
 
 export default function ProductDetailPage() {
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
     const { id } = useParams();
+    const { lang } = useLanguage();
 
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const userAuth = Cookies.get('user');
     const navigate = useNavigate();
 
+    const detailText = {
+        en: {
+            breadcrumb: 'Product',
+            category: 'Category',
+            bestSeller: 'Best seller',
+            inStock: (n) => `${n} in stock`,
+            addToCart: 'Add to Cart',
+            buyNow: 'Buy Now',
+            listedPrice: 'Listed price:',
+            contact: 'Contact',
+            detail: 'Detail',
+            info: 'Product Information',
+            noDesc: 'No description available.',
+            categoryLabel: 'Category:',
+            createdAt: 'Created at:',
+            rating: '(0 reviews)',
+            loading: 'Loading...',
+            loginToBuy: 'Please log in to buy',
+        },
+        vn: {
+            breadcrumb: 'Sản phẩm',
+            category: 'Danh mục',
+            bestSeller: 'Bán chạy',
+            inStock: (n) => `Còn ${n} sản phẩm`,
+            addToCart: 'Thêm vào giỏ',
+            buyNow: 'Mua ngay',
+            listedPrice: 'Giá niêm yết:',
+            contact: 'Liên hệ',
+            detail: 'Chi tiết',
+            info: 'Thông tin sản phẩm',
+            noDesc: 'Không có thông tin mô tả.',
+            categoryLabel: 'Danh mục:',
+            createdAt: 'Ngày thêm:',
+            rating: '(0 đánh giá)',
+            loading: 'Đang tải...',
+            loginToBuy: 'Vui lòng đăng nhập để mua hàng',
+        },
+    };
+
+    const backText = {
+        en: 'Back',
+        vn: 'Quay lại',
+    };
+
     const handleCheckLogin = () => {
         if (!userAuth) {
-            toast.error('Vui lòng đăng nhập để mua hàng');
+            toast.error(detailText[lang].loginToBuy);
             navigate('/login');
             return false;
         }
@@ -58,7 +104,7 @@ export default function ProductDetailPage() {
     if (!product)
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                <Spin size="large" tip="Đang tải..." />
+                <Spin size="large" tip={detailText[lang].loading} />
             </div>
         );
 
@@ -102,6 +148,14 @@ export default function ProductDetailPage() {
 
     return (
         <div className="product-detail-container">
+            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <button
+                    style={{ marginBottom: 24, padding: '8px 20px', borderRadius: 6, border: '1px solid #ff9800', background: '#fff3e0', color: '#d35400', fontWeight: 600, cursor: 'pointer' }}
+                    onClick={() => navigate('/product')}
+                >
+                    &#8592; {backText[lang]}
+                </button>
+            </div>
             <div style={{ maxWidth: '1100px', margin: 'auto', padding: '20px 40px', fontFamily: 'Nunito, sans-serif' }}>
                 <div style={{ display: 'flex', gap: '50px' }}>
                     <div style={{ display: 'flex', gap: '20px' }}>
@@ -118,7 +172,7 @@ export default function ProductDetailPage() {
                     <div className="product-detail-info" style={{ flex: 1 }}>
                         {/* Breadcrumb */}
                         <p style={{ fontSize: '14px', color: '#888', marginBottom: '10px' }}>
-                            Sản phẩm &gt; {product.category || 'Danh mục'}
+                            {detailText[lang].breadcrumb} &gt; {product.category || detailText[lang].category}
                         </p>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <h1 className="product-detail-title">
@@ -128,7 +182,7 @@ export default function ProductDetailPage() {
                             <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <HeartOutlined style={{ fontSize: '25px', color: '#333', cursor: 'pointer' }} />
                                 <span className="product-detail-best-seller">
-                                    Best seller
+                                    {detailText[lang].bestSeller}
                                 </span>
                             </div>
                         </div>
@@ -137,23 +191,23 @@ export default function ProductDetailPage() {
                             {product.description}
                         </p>
                         <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px', lineHeight: '1.6' }}>
-                            Còn {product.stocks || 10} sản phẩm
+                            {detailText[lang].inStock(product.stocks || 10)}
                         </p>
 
                         {/* Đánh giá */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                             <Rate defaultValue={4} disabled style={{ color: '#D8959A' }} />
-                            <span style={{ fontSize: '14px', color: '#666' }}>(0 đánh giá)</span>
+                            <span style={{ fontSize: '14px', color: '#666' }}>{detailText[lang].rating}</span>
                         </div>
 
                         {/* Hiển thị giá tiền */}
                         <div style={{ marginBottom: '15px' }}>
                             <div>
                                 <span style={{ color: '#888', fontSize: '14px', marginRight: '4px' }}>
-                                    Giá niêm yết:
+                                    {detailText[lang].listedPrice}
                                 </span>
                                 <span className="product-detail-price">
-                                    {product.price ? `${product.price.toLocaleString()} đ` : 'Liên hệ'}
+                                    {product.price ? `${product.price.toLocaleString()} đ` : detailText[lang].contact}
                                 </span>
                             </div>
                         </div>
@@ -179,13 +233,13 @@ export default function ProductDetailPage() {
                                 className="product-detail-add-btn"
                                 onClick={handleAddToCart}
                             >
-                                Thêm vào giỏ
+                                {detailText[lang].addToCart}
                             </Button>
                             <Button
                                 className="product-detail-buy-btn"
                                 onClick={handleBuyNow}
                             >
-                                Mua ngay
+                                {detailText[lang].buyNow}
                             </Button>
                         </div>
 
@@ -195,7 +249,7 @@ export default function ProductDetailPage() {
                                 <Panel
                                     header={
                                         <span style={{ fontWeight: 'bold', color: '#a06f6f', fontSize: '20px' }}>
-                                            Chi tiết
+                                            {detailText[lang].detail}
                                         </span>
                                     }
                                     key="1">
@@ -226,16 +280,16 @@ export default function ProductDetailPage() {
                                 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <div style={{ width: '80%', padding: '0 50px' }}>
                                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
-                                        Thông tin sản phẩm
+                                        {detailText[lang].info}
                                     </h2>
                                     <p style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                                        {product.description || 'Không có thông tin mô tả.'}
+                                        {product.description || detailText[lang].noDesc}
                                     </p>
                                     <p style={{ fontSize: '16px', lineHeight: '1.6', marginTop: '10px' }}>
-                                        <strong>Danh mục:</strong> {product.category}
+                                        <strong>{detailText[lang].categoryLabel}</strong> {product.category}
                                     </p>
                                     <p style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                                        <strong>Ngày thêm:</strong> {new Date(product.createdAt).toLocaleDateString()}
+                                        <strong>{detailText[lang].createdAt}</strong> {new Date(product.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
                             </Col>

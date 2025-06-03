@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/feature/cartSlice';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { useLanguage } from '../../LanguageContext';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -20,12 +21,38 @@ export default function ProductPage() {
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { lang } = useLanguage();
 
     // Filter states
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [priceRange, setPriceRange] = useState([0, 500000]); // Default range in VND
     const [searchTerm, setSearchTerm] = useState('');
     const [maxPrice, setMaxPrice] = useState(500000); // Default max price
+
+    const productPageText = {
+        en: {
+            search: 'Search',
+            searchPlaceholder: 'Search by name or description...',
+            category: 'Category',
+            priceRange: 'Price Range',
+            ourProducts: 'Our Products',
+            itemsFound: (n) => `${n} items found`,
+            noProducts: 'No products match your criteria',
+            addToCartError: 'Please log in to buy products',
+            all: 'All',
+        },
+        vn: {
+            search: 'Tìm kiếm',
+            searchPlaceholder: 'Tìm theo tên hoặc mô tả...',
+            category: 'Danh mục',
+            priceRange: 'Khoảng giá',
+            ourProducts: 'Sản phẩm',
+            itemsFound: (n) => `Đã tìm thấy ${n} sản phẩm`,
+            noProducts: 'Không có sản phẩm phù hợp',
+            addToCartError: 'Vui lòng đăng nhập tài khoản để mua sản phẩm',
+            all: 'Tất cả',
+        },
+    };
 
     const handleFetchProducts = async () => {
         try {
@@ -50,7 +77,7 @@ export default function ProductPage() {
 
     // Extract unique categories
     const extractCategories = (productData) => {
-        const uniqueCategories = ['All', ...new Set(productData.map((product) => product.category))];
+        const uniqueCategories = [productPageText[lang].all, ...new Set(productData.map((product) => product.category))];
         setCategories(uniqueCategories);
     };
 
@@ -121,7 +148,7 @@ export default function ProductPage() {
     const handleAddToCart = (product) => {
         const userAuth = Cookies.get('user');
         if (!userAuth) {
-            toast.error('Vui lòng đăng nhập tài khoản để mua sản phẩm');
+            toast.error(productPageText[lang].addToCartError);
             return;
         }
         dispatch(addToCart({
@@ -139,10 +166,10 @@ export default function ProductPage() {
             <Row gutter={[16, 24]} className="filter-section">
                 <Col xs={24} md={8} lg={8}>
                     <div className="filter-label">
-                        <SearchOutlined /> <span>Search</span>
+                        <SearchOutlined /> <span>{productPageText[lang].search}</span>
                     </div>
                     <Input
-                        placeholder="Search by name or description..."
+                        placeholder={productPageText[lang].searchPlaceholder}
                         prefix={<SearchOutlined />}
                         value={searchTerm}
                         onChange={handleSearch}
@@ -151,7 +178,7 @@ export default function ProductPage() {
                 </Col>
                 <Col xs={24} md={8} lg={8}>
                     <div className="filter-label">
-                        <FilterOutlined /> <span>Category</span>
+                        <FilterOutlined /> <span>{productPageText[lang].category}</span>
                     </div>
                     <Select
                         value={selectedCategory}
@@ -168,7 +195,7 @@ export default function ProductPage() {
                 </Col>
                 <Col xs={24} md={8} lg={8}>
                     <div className="filter-label">
-                        <DollarOutlined /> <span>Price Range</span>
+                        <DollarOutlined /> <span>{productPageText[lang].priceRange}</span>
                     </div>
                     <Slider
                         range
@@ -188,8 +215,8 @@ export default function ProductPage() {
 
             {/* Product Section Title */}
             <div className="section-header">
-                <Title level={3}>Our Products</Title>
-                <Text type="secondary">{filteredProducts.length} items found</Text>
+                <Title level={3}>{productPageText[lang].ourProducts}</Title>
+                <Text type="secondary">{productPageText[lang].itemsFound(filteredProducts.length)}</Text>
             </div>
 
             {/* Product Grid */}
@@ -205,7 +232,7 @@ export default function ProductPage() {
                     ))}
                 </div>
             ) : (
-                <Empty description="No products match your criteria" style={{ margin: '40px 0' }} />
+                <Empty description={productPageText[lang].noProducts} style={{ margin: '40px 0' }} />
             )}
         </div>
     );
