@@ -1,0 +1,42 @@
+.promotions-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px; /* Đẩy cả container xuống */
+    padding-top: 20px; /* Thêm khoảng cách trên */
+}
+
+.promotion-card {
+    width: 500px; /* Điều chỉnh theo kích thước mong muốn */
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: antiquewhite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px; /* Đẩy từng card xuống */
+    cursor: pointer;
+}
+
+.promotion-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.promo-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #d62300;
+    text-transform: uppercase;
+}
+
+.promo-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px; /* Giảm khoảng cách giữa các hàng */
+}

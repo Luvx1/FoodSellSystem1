@@ -1,0 +1,88 @@
+.place-order-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1100px; /* Tăng độ rộng tổng thể */
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* Cập nhật phần Delivery Information */
+.delivery-info {
+    flex: 1;
+    margin-right: 50px; /* Tăng khoảng cách với cart-summary */
+}
+
+.delivery-info h2,
+.cart-summary h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Định dạng lại các input */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Cập nhật Cart Summary */
+.cart-summary {
+    flex: 0.7;
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    min-width: 350px; /* Giữ cố định độ rộng */
+}
+
+/* Canh chỉnh thông tin giỏ hàng */
+.cart-total-details {
+    width: 100%;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 18px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Cập nhật nút thanh toán */
+.payment-button {
+    width: 100%;
+    padding: 14px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    margin-top: 20px; /* Tạo khoảng cách giữa nút và nội dung */
+}
+
+.payment-button:hover {
+    background: #e64a19;
+}

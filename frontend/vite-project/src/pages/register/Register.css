@@ -1,0 +1,155 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f1e6;
+}
+
+.register-box {
+    background: white;
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.register-button {
+    width: 100%;
+    background-color: #f04f40;
+    border: none;
+    color: white;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.register-button:hover {
+    background-color: #d94436;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-link a {
+    color: #f04f40;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.back-button {
+    width: 100%;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.error {
+    display: block; /* Đặt lỗi ở dưới */
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 4px; /* Tạo khoảng cách giữa checkbox và lỗi */
+    width: 100%; /* Đảm bảo lỗi chiếm toàn bộ chiều ngang */
+}
+
+.form-group label::after {
+    content: ' *';
+    color: red;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px; /* Khoảng cách giữa checkbox và văn bản */
+    flex-wrap: wrap; /* Đảm bảo dòng cảnh báo xuống hàng */
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #f04f40; /* Đổi màu checkbox */
+}
+
+.checkbox-group label {
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.checkbox-group label a {
+    color: #f04f40;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.checkbox-group label a:hover {
+    text-decoration: underline;
+}
+
+.form-item {
+  margin-bottom: 16px;
+}
+
+.form-item label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 4px;
+}

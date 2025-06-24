@@ -1,0 +1,45 @@
+.about-us-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f1e6;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.about-us-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    max-width: 900px; /* Tăng kích thước để giống ảnh 1 */
+    width: 100%; /* Giúp container co giãn hợp lý */
+    text-align: left;
+}
+
+.about-us-title {
+    color: #d62300;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.about-us-divider {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 10px 0 20px;
+}
+
+.about-us-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.about-us-content p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    margin-top: 5px;
+}

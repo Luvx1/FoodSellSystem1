@@ -1,0 +1,31 @@
+.homepage {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.breadcrumb {
+    margin-bottom: 20px;
+}
+
+.homepage-title {
+    color: black;
+    text-align: center;
+}
+
+.homepage-carousel {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 600px; /* Điều chỉnh kích thước nếu cần */
+    object-fit: cover;
+    
+}
