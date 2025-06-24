@@ -1,0 +1,346 @@
+/* ========== HEADER CHÍNH ========== */
+.main-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 140px;
+    background: #ff9800;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: box-shadow 0.2s;
+}
+
+/* Optional: shadow when scroll */
+.main-header.scrolled {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* ========== LOGO ========== */
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo img {
+    height: 100px;
+    width: auto;
+    display: block;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* ========== MENU CHÍNH ========== */
+.menu-container {
+    flex-grow: 1;  /* Đảm bảo menu mở rộng đúng */
+    display: flex;
+    justify-content: center;
+    /* max-width: 600px;  Bỏ giới hạn chiều rộng tối đa để menu không bị thu nhỏ */
+}
+
+/* Căn giữa menu */
+.main-header .ant-menu {
+    background: transparent;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+/* Màu chữ trong menu */
+.main-header .ant-menu-item {
+    color: white !important;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 20px;
+}
+
+/* Khi menu được chọn */
+.main-header .ant-menu-item-selected {
+    
+    color: white !important;
+    border-radius: 5px;
+}
+
+/* Icon trong menu */
+.menu-container .ant-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-container .ant-menu-item svg {
+    color: #fff;
+}
+
+/* ========== TÌM KIẾM, GIỎ HÀNG, TÀI KHOẢN ========== */
+.right-icons {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 100%;
+}
+
+/* Ô tìm kiếm */
+.right-icons .ant-input-search {
+    max-width: 220px;
+}
+
+/* Giỏ hàng & Tài khoản */
+.right-icons a {
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon,
+.profile-icon {
+    display: flex;
+    align-items: center;
+}
+
+/* Icon giỏ hàng & tài khoản */
+.right-icons .icon {
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* ========== MENU DANH MỤC (CategoryMenu) ========== */
+.category-menu {
+    background-color: #fff3e0;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.category-menu .ant-menu {
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+.category-menu .ant-menu-item {
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+/* ========== DROPDOWN USER ========== */
+.user-logged-in {
+    display: flex;
+    align-items: center;
+}
+
+.user-logged-in .username {
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Đảm bảo dropdown không bị che mất */
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a, .dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-content a:hover, .dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* Bo tròn các nút trong danh mục món ăn */
+.category-item button {
+    border-radius: 50%;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* Đảm bảo nút có kích thước đều */
+    height: 70px; /* Đảm bảo nút có kích thước đều */
+}
+
+.category-item button:hover {
+    background-color: #f1f1f1;
+}
+
+.lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: #222;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    margin: 0 2px;
+    cursor: pointer;
+    transition: color 0.2s;
+    outline: none;
+    box-shadow: none;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+    color: #d32f2f;
+}
+
+/* ========== MENU CUSTOM (KHÔNG DÙNG ANT DESIGN) ========== */
+.custom-menu-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    height: 100%;
+}
+
+.menu-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'Montserrat', 'Poppins', 'Arial Black', Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.menu-link:hover,
+.menu-link.active {
+    color: #4a2e1b;
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
+    .main-header {
+        padding: 0 20px;
+    }
+    .custom-menu-container {
+        gap: 20px;
+    }
+    .right-icons {
+        gap: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-header {
+        height: 64px;
+        padding: 0 8px;
+    }
+    .logo img {
+        height: 40px;
+    }
+    .custom-menu-container {
+        gap: 12px;
+    }
+    .right-icons {
+        gap: 8px;
+    }
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .custom-menu-container {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-menu-container.show {
+        display: flex;
+    }
+
+    .menu-link {
+        padding: 12px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .lang-switch {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-header {
+        padding: 0 12px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .icon {
+        font-size: 20px;
+    }
+
+    .right-icons {
+        gap: 8px;
+    }
+}

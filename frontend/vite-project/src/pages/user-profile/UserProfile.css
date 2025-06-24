@@ -1,0 +1,49 @@
+.user-profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.user-card,
+.details-card {
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.user-card {
+    background-color: #fff;
+}
+
+.details-card .ant-card-body {
+    padding: 20px;
+}
+
+.ant-descriptions-header {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .user-profile-container {
+        padding: 10px;
+    }
+}
+/* ... existing styles ... */
+
+.profile-tabs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.change-password-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.password-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ant-tabs-nav {
+    margin-bottom: 20px !important;
+}

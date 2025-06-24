@@ -1,0 +1,86 @@
+body {
+    background: #fdf3e6;
+}
+
+.main-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #fdf3e6;
+}
+
+.main-content {
+    flex: 1;
+    padding: 24px;
+    margin: 0;
+    min-height: calc(100vh - 64px - 70px); /* viewport height - header - footer */
+    background-color: #fdf3e6;
+    padding-top: 140px;
+}
+
+.content-container {
+    padding: 24px;
+    min-height: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.08);
+}
+
+.main-footer {
+    padding: 10px 20px;
+    background: #4a2e1b;
+    color: #fff;
+    text-align: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .main-content {
+        padding: 16px;
+        padding-top: 64px;
+    }
+
+    .content-container {
+        padding: 16px;
+    }
+
+    .main-footer {
+        padding: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-content {
+        padding: 12px;
+    }
+
+    .content-container {
+        padding: 12px;
+    }
+
+    .main-footer {
+        padding: 12px;
+    }
+}
+
+/* Hover Effects */
+.content-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
