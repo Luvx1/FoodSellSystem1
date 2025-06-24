@@ -8,6 +8,7 @@ import { Card, Row, Col, Typography, Divider, Button, Radio, Space, Steps, messa
 import api from '../../utils/api';
 import { routes } from '../../routes';
 import Cookies from 'js-cookie';
+import './CheckoutPage.css';
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
@@ -121,7 +122,7 @@ export default function CheckoutPage() {
     });
 
     return (
-        <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="checkout-page">
             <Title level={2}>Checkout</Title>
             <Steps
                 current={1}
@@ -130,25 +131,24 @@ export default function CheckoutPage() {
                     { title: 'Checkout', description: 'Payment & shipping' },
                     { title: 'Order Complete', description: 'Order confirmed' },
                 ]}
-                style={{ marginBottom: '40px' }}
+                className="checkout-steps"
             />
 
             <Row gutter={24}>
                 {/* Order Summary - Left Side */}
                 <Col xs={24} md={10}>
-                    <Card title="Order Summary" bordered={true}>
+                    <Card title="Order Summary" bordered={true} className="order-summary-card">
                         {cartItems.map((item) => (
-                            <div key={item.productId} style={{ marginBottom: '15px', display: 'flex' }}>
-                                <div style={{ width: '70px', height: '70px', marginRight: '15px' }}>
+                            <div key={item.productId} className="order-item">
+                                <div className="order-item-image">
                                     <img
                                         src={item.image || 'https://via.placeholder.com/70'}
                                         alt={item.name}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                 </div>
-                                <div style={{ flex: 1 }}>
+                                <div className="order-item-info">
                                     <Text strong>{item.name}</Text>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <div className="order-item-details">
                                         <Text type="secondary">Quantity: {item.quantity}</Text>
                                         <Text>{(item.price * item.quantity).toLocaleString()} đ</Text>
                                     </div>
@@ -158,16 +158,16 @@ export default function CheckoutPage() {
 
                         <Divider />
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div className="summary-row">
                             <Text>Subtotal:</Text>
                             <Text>{calculateTotal().toLocaleString()} đ</Text>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                        <div className="summary-row">
                             <Text>Shipping:</Text>
                             <Text>Free</Text>
                         </div>
                         <Divider />
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div className="summary-row total">
                             <Title level={4}>Total:</Title>
                             <Title level={4}>{calculateTotal().toLocaleString()} đ</Title>
                         </div>
@@ -176,7 +176,7 @@ export default function CheckoutPage() {
 
                 {/* Shipping & Payment Form - Right Side */}
                 <Col xs={24} md={14}>
-                    <Card title="Shipping & Payment Information" bordered={true}>
+                    <Card title="Shipping & Payment Information" bordered={true} className="shipping-card">
                         <Formik
                             initialValues={{
                                 fullName: '',
@@ -190,8 +190,8 @@ export default function CheckoutPage() {
                             validationSchema={validationSchema}
                             onSubmit={handleSubmit}>
                             {({ errors, touched, values, handleChange, handleBlur }) => (
-                                <Form layout="vertical">
-                                    <div style={{ marginBottom: '15px' }}>
+                                <Form>
+                                    <div className="form-group">
                                         <label htmlFor="fullName">Full Name*</label>
                                         <Input
                                             id="fullName"
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                                         )}
                                     </div>
 
-                                    <div style={{ marginBottom: '15px' }}>
+                                    <div className="form-group">
                                         <label htmlFor="phoneNumber">Phone Number*</label>
                                         <Input
                                             id="phoneNumber"
@@ -223,7 +223,7 @@ export default function CheckoutPage() {
 
                                     <Row gutter={16}>
                                         <Col span={24}>
-                                            <div style={{ marginBottom: '15px' }}>
+                                            <div className="form-group">
                                                 <label htmlFor="address">Address*</label>
                                                 <Input
                                                     id="address"
@@ -243,8 +243,8 @@ export default function CheckoutPage() {
                                     </Row>
 
                                     <Row gutter={16}>
-                                        <Col span={12}>
-                                            <div style={{ marginBottom: '15px' }}>
+                                        <Col xs={24} sm={12}>
+                                            <div className="form-group">
                                                 <label htmlFor="district">District*</label>
                                                 <Input
                                                     id="district"
@@ -261,8 +261,8 @@ export default function CheckoutPage() {
                                                 )}
                                             </div>
                                         </Col>
-                                        <Col span={12}>
-                                            <div style={{ marginBottom: '15px' }}>
+                                        <Col xs={24} sm={12}>
+                                            <div className="form-group">
                                                 <label htmlFor="city">City*</label>
                                                 <Input
                                                     id="city"
@@ -279,45 +279,50 @@ export default function CheckoutPage() {
                                         </Col>
                                     </Row>
 
-                                    <div style={{ marginBottom: '15px' }}>
+                                    <div className="form-group">
                                         <label htmlFor="notes">Notes (Optional)</label>
                                         <Input.TextArea
                                             id="notes"
                                             name="notes"
                                             value={values.notes}
                                             onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder="Special delivery instructions, etc."
-                                            rows={3}
+                                            rows={4}
                                         />
                                     </div>
 
-                                    <Divider orientation="left">Payment Method</Divider>
-
-                                    <div style={{ marginBottom: '20px' }}>
+                                    <div className="payment-methods">
+                                        <label>Payment Method*</label>
                                         <Radio.Group
                                             name="paymentMethod"
                                             value={values.paymentMethod}
-                                            onChange={handleChange}>
-                                            <Space direction="vertical">
+                                            onChange={handleChange}
+                                            className="payment-method-options">
+                                            <Space direction="vertical" style={{ width: '100%' }}>
                                                 <Radio value="COD">
-                                                    <Space>Cash On Delivery (COD)</Space>
+                                                    <div className="payment-method-option">
+                                                        <span>Cash on Delivery (COD)</span>
+                                                    </div>
                                                 </Radio>
-                                                {/* <Radio value="BANK_TRANSFER">
-                                                    <Space>Bank Transfer</Space>
-                                                </Radio> */}
                                                 <Radio value="PAYOS">
-                                                    <Space>Pay with PayOS (ATM, QR, e-wallet)</Space>
+                                                    <div className="payment-method-option">
+                                                        <span>PayOS (ATM, QR, e-wallet)</span>
+                                                    </div>
                                                 </Radio>
                                             </Space>
                                         </Radio.Group>
                                         {errors.paymentMethod && touched.paymentMethod && (
-                                            <div style={{ color: 'red', fontSize: '12px' }}>{errors.paymentMethod}</div>
+                                            <div style={{ color: 'red', fontSize: '12px' }}>
+                                                {errors.paymentMethod}
+                                            </div>
                                         )}
                                     </div>
 
-                                    <Button type="primary" htmlType="submit" size="large" block loading={loading}>
-                                        Place Order - {calculateTotal().toLocaleString()} đ
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        loading={loading}
+                                        className="submit-button">
+                                        Place Order
                                     </Button>
                                 </Form>
                             )}

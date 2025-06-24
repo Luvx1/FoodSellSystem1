@@ -311,4 +311,34 @@ router.put(
     }
 );
 
+// API: Lấy tất cả user (chỉ cho admin)
+router.get('/all-users', authMiddleware, async (req, res) => {
+    try {
+        // Chỉ cho phép admin truy cập
+        if (!req.user.role || req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Chỉ admin mới được phép xem danh sách user' });
+        }
+        const users = await User.find().select('-password -refreshTokens');
+        res.json({ users });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi Server' });
+    }
+});
+
+// API: Xóa user (chỉ cho admin)
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!req.user.role || req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Chỉ admin mới được phép xóa user' });
+        }
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy user' });
+        }
+        res.json({ message: 'Xóa user thành công' });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi Server' });
+    }
+});
+
 module.exports = router;

@@ -23,6 +23,7 @@ import CheckoutPage from './pages/checkoutPage/checkoutPage';
 import OrderHistory from './pages/historyOrderPage/OrderHistory';
 import { LanguageProvider } from './LanguageContext';
 import axios from 'axios';
+import ManageUsers from './pages/dashboard/ManageUsers';
 
 function App() {
     const router = createBrowserRouter([
@@ -83,6 +84,14 @@ function App() {
                 {
                     path: routes.restricted,
                     element: <RestrictedPage />,
+                },
+                {
+                    path: '/dashboard/manage-users',
+                    element: (
+                        <ProtectedRoute roles={['admin']}>
+                            <ManageUsers />
+                        </ProtectedRoute>
+                    ),
                 },
             ],
         },

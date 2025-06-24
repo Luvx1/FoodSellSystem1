@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import api from '../../utils/api';
-import { Table, Input, Button, Space, Image, Typography, Tag, Popconfirm, message, Select, Modal } from 'antd';
-import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Input, Button, Space, Image, Typography, Tag, Popconfirm, message, Select, Modal, Card, Row, Col } from 'antd';
+import { SearchOutlined, EditOutlined, DeleteOutlined, ShoppingOutlined, ShoppingCartOutlined, UserOutlined, DollarOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
 
 const { Title } = Typography;
@@ -24,7 +24,10 @@ export default function ManageProduct() {
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
     const [isNewCategory, setIsNewCategory] = useState(false);
-
+    const [orders, setOrders] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [revenue, setRevenue] = useState(0);
+    const navigate = useNavigate();
 
     const handleFetchAllProducts = async () => {
         setLoading(true);
@@ -39,8 +42,31 @@ export default function ManageProduct() {
         }
     };
 
+    const handleFetchAllOrders = async () => {
+        try {
+            const response = await api.get('orders');
+            setOrders(response.data.orders || []);
+            const totalRevenue = (response.data.orders || []).reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+            setRevenue(totalRevenue);
+        } catch (error) {
+            setOrders([]);
+            setRevenue(0);
+        }
+    };
+
+    const handleFetchAllUsers = async () => {
+        try {
+            const response = await api.get('auth/all-users');
+            setUsers(response.data.users || []);
+        } catch (error) {
+            setUsers([]);
+        }
+    };
+
     useEffect(() => {
         handleFetchAllProducts();
+        handleFetchAllOrders();
+        handleFetchAllUsers();
     }, []);
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -255,26 +281,80 @@ export default function ManageProduct() {
         },
     ];
     return (
-        <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                <Title level={2}>Manage Products</Title>
-                <Button type="primary" onClick={handleCreateModalOpen} style={{ marginBottom: '16px' }}>
-                    Create Product
-                </Button>
-                <Link to={routes.manageOrders}>
-                    <Button type="primary">Manage Orders</Button>
-                </Link>
+        <div style={{ padding: '24px', background: '#f8fafc', minHeight: '100vh' }}>
+            <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
+                <Col xs={24} sm={12} md={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px #e0e7ef' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <ShoppingOutlined style={{ fontSize: 32, color: '#ff9800' }} />
+                            <div>
+                                <div style={{ fontSize: 18, fontWeight: 700 }}>Products</div>
+                                <div style={{ fontSize: 24, color: '#222', fontWeight: 600 }}>{products.length}</div>
+                            </div>
+                        </div>
+                    </Card>
+                </Col>
+                <Col xs={24} sm={12} md={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px #e0e7ef' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <ShoppingCartOutlined style={{ fontSize: 32, color: '#00b894' }} />
+                            <div>
+                                <div style={{ fontSize: 18, fontWeight: 700 }}>Orders</div>
+                                <div style={{ fontSize: 24, color: '#222', fontWeight: 600 }}>{orders.length}</div>
+                            </div>
+                        </div>
+                    </Card>
+                </Col>
+                <Col xs={24} sm={12} md={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px #e0e7ef' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <DollarOutlined style={{ fontSize: 32, color: '#00bcd4' }} />
+                            <div>
+                                <div style={{ fontSize: 18, fontWeight: 700 }}>Revenue</div>
+                                <div style={{ fontSize: 24, color: '#222', fontWeight: 600 }}>{revenue.toLocaleString()} đ</div>
+                            </div>
+                        </div>
+                    </Card>
+                </Col>
+                <Col xs={24} sm={12} md={6}>
+                    <Card bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px #e0e7ef' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <UserOutlined style={{ fontSize: 32, color: '#6366f1' }} />
+                            <div>
+                                <div style={{ fontSize: 18, fontWeight: 700 }}>Users</div>
+                                <div style={{ fontSize: 24, color: '#222', fontWeight: 600 }}>{users.length}</div>
+                            </div>
+                        </div>
+                    </Card>
+                </Col>
+            </Row>
+            {/* HEADER + ACTIONS */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <Title level={2} style={{ margin: 0, color: '#222', fontWeight: 800, letterSpacing: 1 }}>Manage Products</Title>
+                <div style={{ display: 'flex', gap: 12 }}>
+                    <Button type="primary" onClick={handleCreateModalOpen} style={{ fontWeight: 600, borderRadius: 8 }}>
+                        + Create Product
+                    </Button>
+                    <Link to={routes.manageOrders}>
+                        <Button style={{ fontWeight: 600, borderRadius: 8, background: '#f5f6fa', color: '#222' }}>Manage Orders</Button>
+                    </Link>
+                    <Link to="/dashboard/manage-users">
+                        <Button style={{ fontWeight: 600, borderRadius: 8, background: '#f5f6fa', color: '#222' }}>Manage Users</Button>
+                    </Link>
+                </div>
             </div>
-
-            <Table
-                columns={columns}
-                dataSource={products.map((product) => ({ ...product, key: product._id }))}
-                pagination={pagination}
-                loading={loading}
-                onChange={handleTableChange}
-                scroll={{ x: 1200 }}
-                bordered
-            />
+            {/* PRODUCT TABLE */}
+            <Card style={{ borderRadius: 16, boxShadow: '0 2px 12px #e0e7ef' }}>
+                <Table
+                    columns={columns}
+                    dataSource={products.map((product) => ({ ...product, key: product._id }))}
+                    pagination={pagination}
+                    loading={loading}
+                    onChange={handleTableChange}
+                    scroll={{ x: 1200 }}
+                    bordered
+                />
+            </Card>
 
             {/* Product Edit Modal with Formik - Existing code */}
             <Modal title="Edit Product" open={isModalVisible} onCancel={handleCancel} footer={null} width={800}>

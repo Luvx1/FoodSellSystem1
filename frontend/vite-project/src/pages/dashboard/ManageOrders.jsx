@@ -16,7 +16,8 @@ import {
     message,
     Popconfirm,
 } from 'antd';
-import { SearchOutlined, EyeOutlined } from '@ant-design/icons';
+import { SearchOutlined, EyeOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
@@ -33,6 +34,7 @@ export default function ManageOrders() {
     const [detailModalVisible, setDetailModalVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [processingOrder, setProcessingOrder] = useState(false);
+    const navigate = useNavigate();
 
     // Define the order status progression
     const ORDER_STATUSES = ['pending', 'processing', 'shipping', 'delivered', 'cancelled'];
@@ -316,6 +318,20 @@ export default function ManageOrders() {
 
     return (
         <div style={{ padding: '20px' }}>
+            <Button
+                onClick={() => navigate('/manage-product')}
+                style={{
+                    marginBottom: 16,
+                    borderRadius: 8,
+                    fontWeight: 600,
+                    background: '#fff3e0',
+                    color: '#d35400',
+                    border: '1px solid #ff9800',
+                }}
+                icon={<ArrowLeftOutlined />}
+            >
+                Back
+            </Button>
             <Title level={2}>Manage Orders</Title>
 
             <Table
